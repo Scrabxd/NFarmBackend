@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { exitCode } from "process";
-import { json } from "stream/consumers";
 import Usuario from "../models/usuario";
 
 export const getUsers = async(req: Request, res: Response) => {
