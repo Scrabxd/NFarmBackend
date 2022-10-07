@@ -9,12 +9,18 @@ const Usuario = config_1.default.define('Usuario', {
     nombre: {
         type: sequelize_1.DataTypes.STRING
     },
-    email: {
+    correo: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    first_lastname: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    second_lastname: {
         type: sequelize_1.DataTypes.STRING
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN
-    },
+    }
 });
 exports.default = Usuario;
 //# sourceMappingURL=usuario.js.map
