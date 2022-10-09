@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import { exitCode } from "process";
-import { json } from "stream/consumers";
 import Usuario from "../models/usuario";
+
+
+
+
 
 export const getUsers = async(req: Request, res: Response) => {
 
@@ -31,26 +33,29 @@ export const getUser = async(req: Request, res: Response) => {
 
 export const postUser = async(req: Request, res: Response) => {
 
-    const { body } = req;
+    const { nombre, correo, contraseña, first_lastname, second_lastname} = req.body
+
+    let id =  Math.ceil(Math.random() * 10000000000) + 100;
+
+    const newUser = {id, contraseña , nombre, correo, first_lastname, second_lastname}
 
     try {
-
         const existeEmail = await Usuario.findOne({
             where:{
-                email:body.email
+                correo:correo,
             }
         });
 
         if(existeEmail){
             return res.status(400).json({
-                msg: `Existe usuario con email: ${body.email}`
+                msg: `Existe usuario con email: ${correo}`
             })
         }
-        
-        const usuario = Usuario.build(body)
-        await usuario.save();
 
-        return res.json( {usuario} )
+        const createUser = Usuario.build(newUser)
+        await createUser.save();
+
+        return res.json( {createUser} )
 
     } catch (error) {
         res.status(500).json({
@@ -60,9 +65,6 @@ export const postUser = async(req: Request, res: Response) => {
     
 }
     
-
-
-
 export const putUser = async (req: Request, res: Response) => {
     
     const { id } = req.params

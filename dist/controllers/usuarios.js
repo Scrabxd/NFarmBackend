@@ -33,21 +33,23 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getUser = getUser;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { body } = req;
+    const { nombre, correo, contraseña, first_lastname, second_lastname } = req.body;
+    let id = Math.ceil(Math.random() * 10000000000) + 100;
+    const newUser = { id, contraseña, nombre, correo, first_lastname, second_lastname };
     try {
         const existeEmail = yield usuario_1.default.findOne({
             where: {
-                email: body.email
+                correo: correo,
             }
         });
         if (existeEmail) {
             return res.status(400).json({
-                msg: `Existe usuario con email: ${body.email}`
+                msg: `Existe usuario con email: ${correo}`
             });
         }
-        const usuario = usuario_1.default.build(body);
-        yield usuario.save();
-        return res.json({ usuario });
+        const createUser = usuario_1.default.build(newUser);
+        yield createUser.save();
+        return res.json({ createUser });
     }
     catch (error) {
         res.status(500).json({
