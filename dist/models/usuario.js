@@ -40,34 +40,45 @@ const sequelize_1 = __importDefault(require("sequelize"));
 const config_1 = __importDefault(require("../db/config"));
 const Usuario = config_1.default.define('Usuario', {
     id: {
-        type: sequelize_1.default.STRING,
+        type: sequelize_1.default.INTEGER,
         primaryKey: true,
     },
-    nombre: {
+    name: {
         type: sequelize_1.default.STRING,
         allowNull: false,
     },
-    contraseña: {
+    last_name: {
         type: sequelize_1.default.STRING,
-        allowNull: false,
+        allowNull: false
     },
-    correo: {
+    email: {
         type: sequelize_1.default.STRING,
         unique: true,
         allowNull: false
     },
-    estado: {
-        type: sequelize_1.default.BOOLEAN
+    password: {
+        type: sequelize_1.default.STRING,
+        allowNull: false,
     },
+    state: {
+        type: sequelize_1.default.BOOLEAN,
+        allowNull: true
+    }
 }, {
     hooks: {
         beforeCreate: (user) => __awaiter(void 0, void 0, void 0, function* () {
-            if (user.contraseña) {
+            if (user.password) {
                 const salt = (0, bcryptjs_1.genSaltSync)();
-                user.contraseña = bcryptjs_1.default.hashSync(user.contraseña, salt);
+                user.password = bcryptjs_1.default.hashSync(user.password, salt);
+            }
+        }),
+        beforeUpdate: (user) => __awaiter(void 0, void 0, void 0, function* () {
+            if (user.password) {
+                const salt = (0, bcryptjs_1.genSaltSync)();
+                user.password = bcryptjs_1.default.hashSync(user.password, salt);
             }
         })
-    }
+    },
 });
 exports.default = Usuario;
 //# sourceMappingURL=usuario.js.map

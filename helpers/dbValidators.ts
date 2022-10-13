@@ -1,4 +1,3 @@
-import { ModelStatic } from "sequelize";
 import Usuario from "../models/usuario";
 
 export const usuarioValid = async(id:string = ' ') => {
