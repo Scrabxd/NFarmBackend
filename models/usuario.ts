@@ -1,7 +1,5 @@
 import bcrypt, { genSaltSync } from 'bcryptjs';
-import { type, userInfo } from 'os';
 import sequelize from 'sequelize'
-import { Hooks } from 'sequelize/types/hooks';
 import db from '../db/config'
 
 type user = any;
@@ -12,23 +10,23 @@ const Usuario = db.define('Usuario',{
         type: sequelize.STRING,
         primaryKey:true,
     },
-    nombre:{
+    name:{
         type: sequelize.STRING,
         allowNull:false,
 
     },
-    contraseña: {
+    password: {
         type: sequelize.STRING,
         allowNull:false,
 
     },
-    correo:{
+    email:{
         type: sequelize.STRING,
         unique:true,
         allowNull:false
 
     },
-    estado:{
+    state:{
         type:sequelize.BOOLEAN
     },
     
