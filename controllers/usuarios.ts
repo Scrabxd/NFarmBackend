@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
 import Usuario from "../models/usuario";
 
-
-
-
-
 export const getUsers = async(req: Request, res: Response) => {
 
     const usuarios = await Usuario.findAll()
@@ -33,22 +29,23 @@ export const getUser = async(req: Request, res: Response) => {
 
 export const postUser = async(req: Request, res: Response) => {
 
-    const { nombre, correo, contraseña, first_lastname, second_lastname} = req.body
+    const { name, email, password, last_name} = req.body
 
-    let id =  Math.ceil(Math.random() * 10000000000) + 100;
+    let id =  Math.ceil(Math.random() * 1000000000) + 100;
 
-    const newUser = {id, contraseña , nombre, correo, first_lastname, second_lastname}
+    const newUser = {id, password , name, email, last_name}
+
 
     try {
         const existeEmail = await Usuario.findOne({
             where:{
-                correo:correo,
+                email:email,
             }
         });
 
         if(existeEmail){
             return res.status(400).json({
-                msg: `Existe usuario con email: ${correo}`
+                msg: `Existe usuario con email: ${email}`
             })
         }
 
@@ -96,21 +93,26 @@ export const delUser = async (req: Request, res: Response) => {
 
 
     const { id } = req.params
+    const uid = req.id
 
-        const usuario = await Usuario.findByPk(id);
+        const user = await Usuario.findByPk(id);
     
-        if(!usuario){
+        if(!user){
             return res.status(404).json({
                 msg: `No existe usuario con id: ${ id }`
             });
         }
 
-        await usuario.update( { estado:false } ); 
+        await user.update( { state:false } ); 
+
+        const userAuth = req.user;
 
         // await usuario.destroy(); borrar permanentemente registros.
         
         res.json ( {
-            usuario
+            user,
+            uid,
+            userAuth,
         })
         
 

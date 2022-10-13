@@ -4,6 +4,7 @@ const sequelize_1 = require("sequelize");
 const db = new sequelize_1.Sequelize('NFarm', 'scrab', 'root', {
     host: 'localhost',
     dialect: 'postgres',
+    logging: false,
 });
 exports.default = db;
 //# sourceMappingURL=config.js.map

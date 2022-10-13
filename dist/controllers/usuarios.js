@@ -33,18 +33,18 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getUser = getUser;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { nombre, correo, contraseña, first_lastname, second_lastname } = req.body;
-    let id = Math.ceil(Math.random() * 10000000000) + 100;
-    const newUser = { id, contraseña, nombre, correo, first_lastname, second_lastname };
+    const { name, email, password, last_name } = req.body;
+    let id = Math.ceil(Math.random() * 1000000000) + 100;
+    const newUser = { id, password, name, email, last_name };
     try {
         const existeEmail = yield usuario_1.default.findOne({
             where: {
-                correo: correo,
+                email: email,
             }
         });
         if (existeEmail) {
             return res.status(400).json({
-                msg: `Existe usuario con email: ${correo}`
+                msg: `Existe usuario con email: ${email}`
             });
         }
         const createUser = usuario_1.default.build(newUser);
@@ -80,16 +80,20 @@ const putUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.putUser = putUser;
 const delUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const usuario = yield usuario_1.default.findByPk(id);
-    if (!usuario) {
+    const uid = req.id;
+    const user = yield usuario_1.default.findByPk(id);
+    if (!user) {
         return res.status(404).json({
             msg: `No existe usuario con id: ${id}`
         });
     }
-    yield usuario.update({ estado: false });
+    yield user.update({ state: false });
+    const userAuth = req.user;
     // await usuario.destroy(); borrar permanentemente registros.
     res.json({
-        usuario
+        user,
+        uid,
+        userAuth,
     });
 });
 exports.delUser = delUser;

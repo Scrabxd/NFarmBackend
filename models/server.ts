@@ -2,9 +2,7 @@ import express, { Application } from 'express';
 import router from '../routes/usuario';
 import cors from 'cors'
 import db from '../db/config';
-
-
-
+import { auth } from '../routes/auth';
 
 
 class Server {
@@ -12,7 +10,8 @@ class Server {
     private app : Application ;
     private port : string ;
     private apiPath = {
-        usuarios: '/api/nfarm'
+        usuarios: '/api/nfarm',
+        auth:'/api/auth'
     }
 
 
@@ -40,7 +39,7 @@ class Server {
         try {
             
             await db.authenticate();
-            console.log('Base de datos online')
+            console.log('Database Online')
 
         } catch (error) {
             console.log(error)
@@ -62,14 +61,16 @@ class Server {
 
     routes(){
 
+        this.app.use(this.apiPath.auth, auth)
         this.app.use(this.apiPath.usuarios, router)
+        
 
     }
 
 
     listen() {
         this.app.listen( this.port, ( ) => {
-            console.log('Servidor corriendo en puerto ' + this.port)
+            console.log('Server running in port: ' + this.port)
         })
     }
 

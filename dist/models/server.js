@@ -16,10 +16,12 @@ const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = __importDefault(require("../db/config"));
+const auth_1 = require("../routes/auth");
 class Server {
     constructor() {
         this.apiPath = {
-            usuarios: '/api/nfarm'
+            usuarios: '/api/nfarm',
+            auth: '/api/auth'
         };
         // Metodos iniciales
         this.app = (0, express_1.default)();
@@ -35,7 +37,7 @@ class Server {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield config_1.default.authenticate();
-                console.log('Base de datos online');
+                console.log('Database Online');
             }
             catch (error) {
                 console.log(error);
@@ -51,11 +53,12 @@ class Server {
         this.app.use(express_1.default.static('public'));
     }
     routes() {
+        this.app.use(this.apiPath.auth, auth_1.auth);
         this.app.use(this.apiPath.usuarios, usuario_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
-            console.log('Servidor corriendo en puerto ' + this.port);
+            console.log('Server running in port: ' + this.port);
         });
     }
 }
