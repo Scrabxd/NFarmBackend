@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importStar(require("bcryptjs"));
 const sequelize_1 = __importDefault(require("sequelize"));
 const config_1 = __importDefault(require("../db/config"));
-const Usuario = config_1.default.define('Usuario', {
+const User = config_1.default.define('User', {
     id: {
         type: sequelize_1.default.INTEGER,
         primaryKey: true,
@@ -77,8 +77,8 @@ const Usuario = config_1.default.define('Usuario', {
                 const salt = (0, bcryptjs_1.genSaltSync)();
                 user.password = bcryptjs_1.default.hashSync(user.password, salt);
             }
-        })
-    },
+        }),
+    }
 });
-exports.default = Usuario;
-//# sourceMappingURL=usuario.js.map
+exports.default = User;
+//# sourceMappingURL=User.js.map
