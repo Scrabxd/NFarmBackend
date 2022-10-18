@@ -1,28 +1,28 @@
 import { Request, Response } from "express";
-import Usuario from "../models/usuario";
+import User from "../models/User";
 
 export const getUsers = async(req: Request, res: Response) => {
 
-    const usuarios = await Usuario.findAll()
+    const user = await User.findAll()
 
-    res.json({usuarios})
+    res.json({user})
 }
 
 export const getUser = async(req: Request, res: Response) => {
 
     const { id } = req.params
 
-    const usuario = await Usuario.findByPk( id )
+    const user = await User.findByPk( id )
 
-    if( !usuario ){
+    if( !user ){
         return res.status(404).json({
-            msg: `No existe un usuario con el id ${id }`
+            msg: `No User with the id: ${id }`
         })
     }
 
     
     res.json({
-        usuario
+        user
     })
 }
 
@@ -37,7 +37,7 @@ export const postUser = async(req: Request, res: Response) => {
 
 
     try {
-        const existeEmail = await Usuario.findOne({
+        const existeEmail = await User.findOne({
             where:{
                 email:email,
             }
@@ -45,18 +45,18 @@ export const postUser = async(req: Request, res: Response) => {
 
         if(existeEmail){
             return res.status(400).json({
-                msg: `Existe usuario con email: ${email}`
+                msg: `Existing User with email: ${email}`
             })
         }
 
-        const createUser = Usuario.build(newUser)
+        const createUser = User.build(newUser)
         await createUser.save();
 
         return res.json( {createUser} )
 
     } catch (error) {
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Talk to  an admin'
         })
     }
     
@@ -69,33 +69,33 @@ export const putUser = async (req: Request, res: Response) => {
 
     try {
 
-        const usuario = await Usuario.findByPk(id);
+        const user = await User.findByPk(id);
 
-        if(!usuario){
+        if(!user){
             return res.status(404).json({
                 msg: `No existe usuario con id: ${ id }`
             });
         }
-        await usuario.update( body )
-         res.json( {usuario} )
+        await user.update( body )
+         res.json( {user} )
 
 
 
     } catch (error) {
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Talk to an admin'
         })
     }
 }
 
 
-export const delUser = async (req: Request, res: Response) => {
+export const delUser = async (req: any, res: any) => {
 
 
     const { id } = req.params
     const uid = req.id
 
-        const user = await Usuario.findByPk(id);
+        const user = await User.findByPk(id);
     
         if(!user){
             return res.status(404).json({

@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import router from '../routes/usuario';
+import router from '../routes/users';
 import cors from 'cors'
 import db from '../db/config';
 import { auth } from '../routes/auth';

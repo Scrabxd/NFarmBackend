@@ -1,4 +1,4 @@
-import Usuario from "../models/usuario";
+import Usuario from "../models/User";
 
 export const usuarioValid = async(id:string = ' ') => {
     const existeUsuario = await Usuario.findByPk(id);

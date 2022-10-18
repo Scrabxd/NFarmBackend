@@ -1,2 +1,2 @@
 export * from './server'
-export * from './usuario'
+export * from './User'

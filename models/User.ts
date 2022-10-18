@@ -1,13 +1,10 @@
 import bcrypt, { genSaltSync } from 'bcryptjs';
-import { unwatchFile } from 'fs';
-import { userInfo } from 'os';
 import sequelize from 'sequelize'
 import db from '../db/config'
 
 type user = any;
 
-
-const Usuario = db.define('Usuario',{
+const User = db.define('User',{
     id:{
         type: sequelize.INTEGER,
         primaryKey:true,
@@ -49,17 +46,13 @@ const Usuario = db.define('Usuario',{
                 const salt = genSaltSync();
                 user.password = bcrypt.hashSync(user.password, salt)
             }
-        }
-        
-        
-    },
+        },
     
 }
-
-)
-
+})
 
 
 
-export default Usuario;
+
+export default User;
 

@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usuarioValid = void 0;
-const usuario_1 = __importDefault(require("../models/usuario"));
+const User_1 = __importDefault(require("../models/User"));
 const usuarioValid = (id = ' ') => __awaiter(void 0, void 0, void 0, function* () {
-    const existeUsuario = yield usuario_1.default.findByPk(id);
+    const existeUsuario = yield User_1.default.findByPk(id);
     if (!existeUsuario) {
         throw new Error(` El id: ${id} no existe`);
     }

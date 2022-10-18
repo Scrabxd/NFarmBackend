@@ -1,5 +1,5 @@
 import { Router } from 'express' 
-import { delUser, getUser, getUsers, postUser, putUser } from '../controllers/usuarios';
+import { delUser, getUser, getUsers, postUser, putUser } from '../controllers/users';
 import { check } from 'express-validator'
 import { usuarioValid } from '../helpers/dbValidators';
 import { validation } from '../middlewares/validation';

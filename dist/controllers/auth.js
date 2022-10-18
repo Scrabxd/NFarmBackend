@@ -13,14 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = void 0;
-const usuario_1 = __importDefault(require("../models/usuario"));
+const User_1 = __importDefault(require("../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const generateJWT_1 = require("../helpers/generateJWT");
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
         // Verify if email exists.
-        const user = yield usuario_1.default.findOne({
+        const user = yield User_1.default.findOne({
             where: {
                 email: email,
             }

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const usuario_1 = __importDefault(require("../models/usuario"));
+const User_1 = __importDefault(require("../models/User"));
 const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('x-token');
     if (!token) {
@@ -24,7 +24,7 @@ const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     try {
         const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
-        const user = yield usuario_1.default.findByPk(payload.id);
+        const user = yield User_1.default.findByPk(payload.id);
         if (!user) {
             return res.status(401).json({
                 msg: 'User does not exist.'
