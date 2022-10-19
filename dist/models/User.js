@@ -38,9 +38,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importStar(require("bcryptjs"));
 const sequelize_1 = __importDefault(require("sequelize"));
 const config_1 = __importDefault(require("../db/config"));
+const role_1 = __importDefault(require("./role"));
 const User = config_1.default.define('User', {
     id: {
-        type: sequelize_1.default.INTEGER,
+        type: sequelize_1.default.NUMBER,
         primaryKey: true,
     },
     name: {
@@ -63,6 +64,10 @@ const User = config_1.default.define('User', {
     state: {
         type: sequelize_1.default.BOOLEAN,
         allowNull: true
+    },
+    id_role: {
+        type: sequelize_1.default.NUMBER,
+        allowNull: false
     }
 }, {
     hooks: {
@@ -78,7 +83,11 @@ const User = config_1.default.define('User', {
                 user.password = bcryptjs_1.default.hashSync(user.password, salt);
             }
         }),
-    }
+    },
+});
+// One to one with Role
+User.hasOne(role_1.default, {
+    foreignKey: 'id_role',
 });
 exports.default = User;
 //# sourceMappingURL=User.js.map

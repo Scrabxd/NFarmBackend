@@ -2,7 +2,7 @@ import { NextFunction,Request,Response } from "express";
 
 import jwt from 'jsonwebtoken';
 
-import Usuario from "../models/User";
+import User from "../models/User";
 
 export const validateJWT = async(req:Request,res:Response,next:NextFunction ) => {
 
@@ -20,7 +20,7 @@ export const validateJWT = async(req:Request,res:Response,next:NextFunction ) =>
     try {
         const payload = jwt.verify(token,process.env.SecretKey);
 
-        const user = await Usuario.findByPk(payload.id);
+        const user = await User.findByPk(payload.id);
 
         if( !user ){
             return res.status(401).json({
@@ -37,6 +37,7 @@ export const validateJWT = async(req:Request,res:Response,next:NextFunction ) =>
         
         
         req.user = user
+        
         next();
     } catch (error) {
         console.log(error)

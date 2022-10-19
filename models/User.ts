@@ -1,12 +1,14 @@
 import bcrypt, { genSaltSync } from 'bcryptjs';
 import sequelize from 'sequelize'
 import db from '../db/config'
+import Farmer from './farmer';
+import Role from './role';
 
 type user = any;
 
 const User = db.define('User',{
     id:{
-        type: sequelize.INTEGER,
+        type: sequelize.NUMBER,
         primaryKey:true,
     },
     name:{
@@ -21,7 +23,6 @@ const User = db.define('User',{
         type: sequelize.STRING,
         unique:true,
         allowNull:false
-
     },
     password: {
         type: sequelize.STRING,
@@ -30,8 +31,11 @@ const User = db.define('User',{
     state:{
         type:sequelize.BOOLEAN,
         allowNull:true
+    },
+    id_role:{
+        type:sequelize.NUMBER,
+        allowNull:false
     }
-    
 },
 {
     hooks:{
@@ -47,9 +51,15 @@ const User = db.define('User',{
                 user.password = bcrypt.hashSync(user.password, salt)
             }
         },
-    
-}
+},
 })
+
+// One to one with Role
+User.hasOne(Role,{
+    foreignKey:'id_role',
+})
+
+
 
 
 
