@@ -2,9 +2,9 @@
   "name": "nodets",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "main": "app.js",
   "scripts": {
-    "start":"node dist/app.js",
+    "startociu":"node dist/app.js",
     "TSC": "tsc --watch"
   },
   "keywords": [],
