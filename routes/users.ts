@@ -9,6 +9,7 @@ const router = Router();
 
 router.get('/',getUsers);
 
+
 router.get('/:id',
 [
     check('id','Insert an ID').not().isEmpty(),
