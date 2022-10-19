@@ -11,7 +11,7 @@ router.get('/',getUsers);
 
 router.get('/:id',
 [
-    check('id','Inserte un ID').not().isEmpty(),
+    check('id','Insert an ID').not().isEmpty(),
     check('id').custom(usuarioValid),
     validation
 ]
@@ -19,15 +19,16 @@ router.get('/:id',
 
 router.post('/',
 [
-    check('email','El correo electronico es incorrecto').isEmail(),
-    check('password','la contraseña debe ser mayor a 6 letras').isLength({min:6}),
+    check('email','The email is incorrect').isEmail(),
+    check('password','The password must be longer that 6 characters').isLength({min:6}),
+    check('rfc','Invalid RFC').isLength({min:12}),
     validation
 ]
 ,postUser);
 
 router.put('/:id',
 [
-    check('id','Inserte un ID').not().isEmpty(),
+    check('id','Insert an ID').not().isEmpty(),
     check('id').custom(usuarioValid),
     validation
 ]
@@ -36,7 +37,7 @@ router.put('/:id',
 router.delete('/:id',
 [   
     validateJWT,
-    check('id','Inserte un ID').not().isEmpty(),
+    check('id','Insert an ID').not().isEmpty(),
     check('id').custom(usuarioValid),
     validation
 ]
