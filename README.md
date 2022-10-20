@@ -13,3 +13,19 @@ To run the project, you must have a .ENV file, with the port on it that would be
 ```
 PORT = 4000/3000/2000
 ```
+
+And your configurations for the data base, I'm using Railway so my configs looks like this:
+
+```
+PGDATABASE
+PGHOST
+PGPASSWORD  
+PGPORT
+PGUSER
+```
+
+And the addition of an apiToken
+
+```
+ApiKey
+```
