@@ -12,11 +12,11 @@ const Farmer = db.define('Farmer',{
         type:sequelize.STRING,
         allowNull:false
     },
-    country_Exportation:{
+    countryExportation:{
         type:sequelize.STRING,
         allowNull:false
     },
-    credential_Exportation:{
+    credentialExportation:{
         type:sequelize.STRING,
         allowNull:false
     }

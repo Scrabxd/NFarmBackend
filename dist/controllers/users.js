@@ -36,12 +36,12 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getUser = getUser;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, last_name, rfc, country_Exportation, credential_Exportation, email, password, id_role, restaurant_name } = req.body;
+    const { name, lastName, rfc, countryExportation, credentialExportation, email, password, idRole, restaurantName } = req.body;
     // 1 = Farmer
     // 2 = Restaurant Owner
     try {
         let id = Math.ceil(Math.random() * 1000000000) + 100;
-        const userData = { id, name, last_name, email, password, id_role };
+        const userData = { id, name, lastName, email, password, idRole };
         const emailExists = yield User_1.default.findOne({
             where: {
                 email: email,
@@ -54,14 +54,14 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const createUser = User_1.default.build(userData);
         yield createUser.save();
-        if (id_role === 1) {
-            const farmerData = { id, rfc, country_Exportation, credential_Exportation };
+        if (idRole === 1) {
+            const farmerData = { id, rfc, countryExportation, credentialExportation };
             const createFarmer = farmer_1.default.build(farmerData);
             yield createFarmer.save();
             return res.json({ createUser, createFarmer });
         }
         else {
-            const Restaurant_ownersData = { id, rfc, restaurant_name };
+            const Restaurant_ownersData = { id, rfc, restaurantName };
             const createRestaurant_owner = restaurants_owner_1.default.build(Restaurant_ownersData);
             yield createRestaurant_owner.save();
             return res.json({ createUser, createRestaurant_owner });

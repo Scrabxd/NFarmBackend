@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateJWT = void 0;
+exports.addRestaurant = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const User_1 = __importDefault(require("../models/User"));
-const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const branch_1 = __importDefault(require("../models/branch"));
+const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { city, street, phoneNumber, outsideNumber, postalCode, country } = req.body;
     const token = req.header('x-token');
     if (!token) {
         return res.status(401).json({
@@ -25,26 +26,28 @@ const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
         const { id } = payload;
-        const user = yield User_1.default.findByPk(id);
-        if (!user) {
-            return res.status(401).json({
-                msg: 'User does not exist.'
-            });
-        }
-        if (!user.state) {
-            return res.status(401).json({
-                msg: 'Not a valid token - User deleted'
-            });
-        }
-        req.user = user;
-        next();
+        let idRes = Math.ceil(Math.random() * 1000000000) + 100;
+        const newBranch = {
+            id: idRes,
+            city,
+            street,
+            outsideNumber,
+            phoneNumber,
+            postalCode,
+            country,
+            idOwner: id
+        };
+        const createBranch = branch_1.default.build(newBranch);
+        createBranch.save();
+        return res.status(201).json({
+            createBranch
+        });
     }
     catch (error) {
-        console.log(error);
-        res.status(401).json({
-            msg: 'Unvalid Token'
+        return res.status(400).json({
+            msg: 'Talk to an admin'
         });
     }
 });
-exports.validateJWT = validateJWT;
-//# sourceMappingURL=validateJWT.js.map
+exports.addRestaurant = addRestaurant;
+//# sourceMappingURL=restaurant.js.map
