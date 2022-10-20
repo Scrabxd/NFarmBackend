@@ -11,10 +11,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateAPIKey = void 0;
 const validateAPIKey = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (req.query.apiToken !== process.env.ApiKey) {
+    if (!req.query.apiToken) {
         return res.json({
-            msg: "APIKey Invalid!"
+            msg: "You need an APIKey to access the backend"
         });
+    }
+    else {
+        if (req.query.apiToken !== process.env.ApiKey) {
+            return res.json({
+                msg: "APIKey Invalid!"
+            });
+        }
     }
     next();
 });
