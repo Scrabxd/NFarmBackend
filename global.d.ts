@@ -7,5 +7,6 @@ namespace NodeJS {
       PGPASSWORD:string;
       PGPORT:number;
       PGUSER:string;
+      ApiKey:string;
     }
   }

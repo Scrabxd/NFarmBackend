@@ -4,14 +4,21 @@ import { check } from 'express-validator'
 import { usuarioValid } from '../helpers/dbValidators';
 import { validation } from '../middlewares/validation';
 import { validateJWT } from '../middlewares/validateJWT';
+import { validateAPIKey } from '../middlewares';
 const router = Router();
 
 
-router.get('/',getUsers);
+router.get('/',
+[
+    validateAPIKey,
+    validation
+],
+getUsers);
 
 
 router.get('/:id',
 [
+    validateAPIKey,
     check('id','Insert an ID').not().isEmpty(),
     check('id').custom(usuarioValid),
     validation
@@ -20,6 +27,7 @@ router.get('/:id',
 
 router.post('/',
 [
+    validateAPIKey,
     check('email','The email is incorrect').isEmail(),
     check('password','The password must be longer that 6 characters').isLength({min:6}),
     check('rfc','Invalid RFC').isLength({min:12}),
@@ -29,6 +37,7 @@ router.post('/',
 
 router.put('/:id',
 [
+    validateAPIKey,
     check('id','Insert an ID').not().isEmpty(),
     check('id').custom(usuarioValid),
     validation
@@ -37,6 +46,7 @@ router.put('/:id',
 
 router.delete('/:id',
 [   
+    validateAPIKey,
     validateJWT,
     check('id','Insert an ID').not().isEmpty(),
     check('id').custom(usuarioValid),

@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { rmSync } from "fs";
 import Farmer from "../models/farmer";
 import Restaurant from "../models/restaurants_owner";
 import User from "../models/User";
 
 export const getUsers = async(req: Request, res: Response) => {
+
+    //TODO: Apikey
 
     const user = await Farmer.findAll()
 
@@ -40,12 +41,14 @@ export const postUser = async(req: Request, res: Response) => {
         credential_Exportation,
         email,
         password,
-        id_role,
+        id_role,   
+        restaurant_name
     } = req.body
     
     
     // 1 = Farmer
     // 2 = Restaurant Owner
+
     try {
         let id =  Math.ceil(Math.random() * 1000000000) + 100;
         const userData = {id, name, last_name,email,password,id_role }
@@ -76,7 +79,7 @@ export const postUser = async(req: Request, res: Response) => {
 
             return res.json( {createUser, createFarmer} )
         }else{
-            const Restaurant_ownersData = { id, rfc} ;
+            const Restaurant_ownersData = { id, rfc,restaurant_name} ;
 
             const createRestaurant_owner = Restaurant.build(Restaurant_ownersData);
             await createRestaurant_owner.save();
