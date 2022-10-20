@@ -17,6 +17,7 @@ const farmer_1 = __importDefault(require("../models/farmer"));
 const restaurants_owner_1 = __importDefault(require("../models/restaurants_owner"));
 const User_1 = __importDefault(require("../models/User"));
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //TODO: Apikey
     const user = yield farmer_1.default.findAll();
     res.json({ user });
 });
@@ -35,7 +36,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getUser = getUser;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, last_name, rfc, country_Exportation, credential_Exportation, email, password, id_role, } = req.body;
+    const { name, last_name, rfc, country_Exportation, credential_Exportation, email, password, id_role, restaurant_name } = req.body;
     // 1 = Farmer
     // 2 = Restaurant Owner
     try {
@@ -60,7 +61,7 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.json({ createUser, createFarmer });
         }
         else {
-            const Restaurant_ownersData = { id, rfc };
+            const Restaurant_ownersData = { id, rfc, restaurant_name };
             const createRestaurant_owner = restaurants_owner_1.default.build(Restaurant_ownersData);
             yield createRestaurant_owner.save();
             return res.json({ createUser, createRestaurant_owner });
