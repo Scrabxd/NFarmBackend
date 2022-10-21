@@ -41,6 +41,7 @@ export const login = async (req:Request, res:Response) => {
         // Generate JWT
         const token = await generateJWT(user.id);
 
+        
         res.json({
             msg:'Login OKIDOKI',
             user,

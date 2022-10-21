@@ -48,7 +48,7 @@ const User = config_1.default.define('User', {
         type: sequelize_1.default.STRING,
         allowNull: false,
     },
-    last_name: {
+    lastName: {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
@@ -65,7 +65,7 @@ const User = config_1.default.define('User', {
         type: sequelize_1.default.BOOLEAN,
         allowNull: true
     },
-    id_role: {
+    idRole: {
         type: sequelize_1.default.NUMBER,
         allowNull: false
     }

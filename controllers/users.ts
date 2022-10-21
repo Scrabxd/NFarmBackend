@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { rmSync } from "fs";
 import Farmer from "../models/farmer";
 import Restaurant from "../models/restaurants_owner";
 import User from "../models/User";
 
 export const getUsers = async(req: Request, res: Response) => {
+
+    //TODO: Apikey
 
     const user = await Farmer.findAll()
 
@@ -34,21 +35,23 @@ export const postUser = async(req: Request, res: Response) => {
     
     const { 
         name,
-        last_name,
+        lastName,
         rfc,
-        country_Exportation,
-        credential_Exportation,
+        countryExportation,
+        credentialExportation,
         email,
         password,
-        id_role,
+        idRole,   
+        restaurantName
     } = req.body
     
     
     // 1 = Farmer
     // 2 = Restaurant Owner
+
     try {
         let id =  Math.ceil(Math.random() * 1000000000) + 100;
-        const userData = {id, name, last_name,email,password,id_role }
+        const userData = {id, name, lastName,email,password,idRole }
         
             const emailExists = await User.findOne({
                 where:{
@@ -65,10 +68,10 @@ export const postUser = async(req: Request, res: Response) => {
             const createUser = User.build(userData);
             await createUser.save();
 
-        if(id_role === 1){
+        if(idRole === 1){
             
         
-            const farmerData = {id, rfc,country_Exportation,credential_Exportation}
+            const farmerData = {id, rfc,countryExportation,credentialExportation}
     
             const createFarmer = Farmer.build(farmerData);
             await createFarmer.save();
@@ -76,7 +79,7 @@ export const postUser = async(req: Request, res: Response) => {
 
             return res.json( {createUser, createFarmer} )
         }else{
-            const Restaurant_ownersData = { id, rfc} ;
+            const Restaurant_ownersData = { id, rfc, restaurantName} ;
 
             const createRestaurant_owner = Restaurant.build(Restaurant_ownersData);
             await createRestaurant_owner.save();

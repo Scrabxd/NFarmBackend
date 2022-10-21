@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start":"node dist/app.js",
-    "dev":"nodemon dist/app.js",
-    "startociu":"node dist/app.js",
+    "start": "node dist/app.js",
+    "dev": "nodemon dist/app.js",
+    "startociu": "node dist/app.js",
     "TSC": "tsc --watch"
   },
   "keywords": [],

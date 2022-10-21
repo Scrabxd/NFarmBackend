@@ -15,11 +15,11 @@ const Farmer = config_1.default.define('Farmer', {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    country_Exportation: {
+    countryExportation: {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    credential_Exportation: {
+    credentialExportation: {
         type: sequelize_1.default.STRING,
         allowNull: false
     }
