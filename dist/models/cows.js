@@ -5,30 +5,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importDefault(require("sequelize"));
 const config_1 = __importDefault(require("../db/config"));
-const ranch_1 = __importDefault(require("./ranch"));
-const Farmer = config_1.default.define('Farmer', {
+const Cow = config_1.default.define('Cow', {
     id: {
         type: sequelize_1.default.NUMBER,
+        allowNull: false,
         primaryKey: true
     },
-    rfc: {
+    certificates: {
+        type: sequelize_1.default.TEXT,
+        allowNull: false
+    },
+    name: {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    countryExportation: {
+    breed: {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    credentialExportation: {
-        type: sequelize_1.default.STRING,
+    weight: {
+        type: sequelize_1.default.NUMBER,
+        allowNull: false
+    },
+    idRanch: {
+        type: sequelize_1.default.NUMBER,
         allowNull: false
     }
 });
-Farmer.hasMany(ranch_1.default, {
-    foreignKey: 'id'
-});
-ranch_1.default.belongsTo(Farmer, {
-    foreignKey: 'idFarmer'
-});
-exports.default = Farmer;
-//# sourceMappingURL=farmer.js.map
+exports.default = Cow;
+//# sourceMappingURL=cows.js.map

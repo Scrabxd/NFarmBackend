@@ -1,3 +1,6 @@
 export * from './server'
 export * from './User'
 export * from './farmer'
+export * from './branch'
+export * from './restaurants_owner'
+export * from './role'
