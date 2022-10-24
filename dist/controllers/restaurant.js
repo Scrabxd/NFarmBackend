@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addRestaurant = void 0;
+exports.getRestaurants = exports.addRestaurant = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const branch_1 = __importDefault(require("../models/branch"));
 const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,4 +50,26 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.addRestaurant = addRestaurant;
+const getRestaurants = (req, res) => {
+    const token = req.header('x-token');
+    const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
+    const { id } = payload;
+    try {
+        const findRestaurant = branch_1.default.findAll({
+            where: {
+                idOwner: id
+            }
+        });
+        return res.status(200).json({
+            findRestaurant
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            msg: 'Talk to an admin'
+        });
+    }
+};
+exports.getRestaurants = getRestaurants;
 //# sourceMappingURL=restaurant.js.map

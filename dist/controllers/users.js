@@ -17,7 +17,6 @@ const farmer_1 = __importDefault(require("../models/farmer"));
 const restaurants_owner_1 = __importDefault(require("../models/restaurants_owner"));
 const User_1 = __importDefault(require("../models/User"));
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //TODO: Apikey
     const user = yield farmer_1.default.findAll();
     res.json({ user });
 });

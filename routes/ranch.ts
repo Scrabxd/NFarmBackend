@@ -1,6 +1,6 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addRanch } from '../controllers/ranch';
+import { addRanch, getRanchs } from '../controllers/ranch';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
 
@@ -19,3 +19,12 @@ ranch.post('/',
     validation
 ]
 , addRanch)
+
+
+
+ranch.get('/',
+[
+    validateAPIKey,
+    validation
+]
+,getRanchs)

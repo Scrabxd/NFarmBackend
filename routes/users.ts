@@ -16,7 +16,7 @@ router.get('/',
 getUsers);
 
 
-router.get('/:id',
+router.get('/',
 [
     validateAPIKey,
     check('id','Insert an ID').not().isEmpty(),
@@ -35,7 +35,7 @@ router.post('/',
 ]
 ,postUser);
 
-router.put('/:id',
+router.put('/',
 [
     validateAPIKey,
     check('id','Insert an ID').not().isEmpty(),

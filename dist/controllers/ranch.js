@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addRanch = void 0;
+exports.getRanchs = exports.addRanch = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ranch_1 = __importDefault(require("../models/ranch"));
 const addRanch = (req, res) => {
@@ -43,4 +43,26 @@ const addRanch = (req, res) => {
     }
 };
 exports.addRanch = addRanch;
+const getRanchs = (req, res) => {
+    const token = req.header('x-token');
+    const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
+    const { id } = payload;
+    try {
+        const findRanch = ranch_1.default.findAll({
+            where: {
+                idFarmer: id
+            }
+        });
+        return res.status(200).json({
+            findRanch
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            msg: 'Talk to the admin'
+        });
+    }
+};
+exports.getRanchs = getRanchs;
 //# sourceMappingURL=ranch.js.map

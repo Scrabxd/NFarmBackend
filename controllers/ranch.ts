@@ -9,9 +9,8 @@ interface RPayload {
 
 
 
-export const addRanch = (req:any,res:Response) =>{
+export const addRanch = ( req:any, res:Response ) =>{
 
-    
     const {
         city,
         street,
@@ -22,23 +21,21 @@ export const addRanch = (req:any,res:Response) =>{
         ranchName,
     } = req.body
 
-    const token = req.header('x-token');
+    const token = req.header( 'x-token' );
 
-    if(!token){
+    if( !token ){
         return res.status(401).json({
             msg:' No token in the petition '
         })
     }
 
-
     try {
 
-        const payload = jwt.verify(token,process.env.SecretKey);
+        const payload = jwt.verify( token, process.env.SecretKey );
 
-        const {id} = payload as RPayload
+        const { id } = payload as RPayload
 
-
-        let idR = Math.ceil(Math.random() * 1000000000) + 100;
+        let idR = Math.ceil( Math.random() * 1000000000 ) + 100;
 
         const newRanch = {
             id: idR,
@@ -60,7 +57,7 @@ export const addRanch = (req:any,res:Response) =>{
         })
         
     } catch (error) {
-        console.log(error)
+        console.log( error )
         return res.status(400).json({
             msg:'Talk to an admin',
 
@@ -68,4 +65,37 @@ export const addRanch = (req:any,res:Response) =>{
     }
 
     
+}
+
+
+
+export const getRanchs  = ( req: any , res: Response ) => {
+
+    const token = req.header( 'x-token' );
+
+    const payload = jwt.verify( token, process.env.SecretKey );
+    
+    const { id } = payload as RPayload;
+
+
+    try {
+        const findRanch = Ranch.findAll({
+            where:{
+                idFarmer : id
+            }
+        });
+        
+        return res.status(200).json({
+            findRanch
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            msg:'Talk to the admin'
+        })
+    }
+
+
+
 }

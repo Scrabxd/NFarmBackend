@@ -9,5 +9,9 @@ cow.post('/', [
     middlewares_1.validateAPIKey,
     validation_1.validation
 ], cow_1.addCow);
+cow.get('/', [
+    middlewares_1.validateAPIKey,
+    validation_1.validation
+], cow_1.getCows);
 exports.default = cow;
 //# sourceMappingURL=cow.js.map

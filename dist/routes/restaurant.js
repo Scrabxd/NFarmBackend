@@ -16,4 +16,8 @@ exports.restaurant.post('/', [
     (0, express_validator_1.check)('postalCode', 'please input a valid Postal Code').notEmpty().isLength({ min: 5 }),
     validation_1.validation,
 ], controllers_1.addRestaurant);
+exports.restaurant.get('/', [
+    middlewares_1.validateAPIKey,
+    validation_1.validation
+], controllers_1.getRestaurants);
 //# sourceMappingURL=restaurant.js.map

@@ -3,6 +3,7 @@ import { NextFunction,Request,Response } from "express";
 import jwt from 'jsonwebtoken';
 
 import User from "../models/User";
+
 interface IPayload {
     id:number
 }
@@ -39,7 +40,6 @@ export const validateJWT = async(req:any, res:Response,next:NextFunction ) => {
                 msg:'Not a valid token - User deleted'
             }) 
         }
-        
         
         req.user = user
         

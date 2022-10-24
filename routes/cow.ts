@@ -1,6 +1,6 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addCow } from '../controllers/cow';
+import { addCow, getCows } from '../controllers/cow';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
 
@@ -15,6 +15,14 @@ cow.post('/',
     validation
 ]
 , addCow)
+
+
+cow.get( '/' , 
+[
+    validateAPIKey,
+    validation
+]
+, getCows)
 
 
 

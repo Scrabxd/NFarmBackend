@@ -68,8 +68,45 @@ export const addRestaurant = async(req:any , res:Response) => {
 
     }
 
+}
 
 
+export const getRestaurants = ( req: any , res: Response ) => {
+    
+    
+    const token = req.header( 'x-token' );
+
+    const payload = jwt.verify( token, process.env.SecretKey );
+    
+    const { id } = payload as UPayload;
+
+
+    try {
+
+        const findRestaurant = Branch.findAll({
+            where:{
+                idOwner : id
+            }
+        })
+
+        return res.status(200).json({
+
+            findRestaurant
+            
+        })
+
+
+    } catch (error) {
+
+        console.log(error);
+
+        return res.status(200).json({
+
+            msg:'Talk to an admin'
+        
+        })
+        
+    }
 
 
 

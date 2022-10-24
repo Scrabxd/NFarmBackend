@@ -5,7 +5,7 @@ import User from "../models/User";
 
 export const getUsers = async(req: Request, res: Response) => {
 
-    //TODO: Apikey
+    
 
     const user = await Farmer.findAll()
 
@@ -23,7 +23,6 @@ export const getUser = async(req: Request, res: Response) => {
             msg: `No User with the id: ${id }`
         })
     }
-
     
     res.json({
         user

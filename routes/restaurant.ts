@@ -1,6 +1,6 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addRestaurant } from '../controllers';
+import { addRestaurant, getRestaurants } from '../controllers';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
 
@@ -8,7 +8,7 @@ import { validation } from '../middlewares/validation';
 
 export const restaurant = Router();
 
-restaurant.post('/',
+restaurant.post( '/',
 
 [
     validateAPIKey, 
@@ -19,4 +19,12 @@ restaurant.post('/',
     check('postalCode','please input a valid Postal Code').notEmpty().isLength({min:5}),
     validation,
 ]
-, addRestaurant)
+, addRestaurant )
+
+
+restaurant.get( '/',
+[
+    validateAPIKey,
+    validation
+]
+, getRestaurants )

@@ -15,4 +15,8 @@ exports.ranch.post('/', [
     (0, express_validator_1.check)('postalCode', 'please input a valid Postal Code').notEmpty().isLength({ min: 5 }),
     validation_1.validation
 ], ranch_1.addRanch);
+exports.ranch.get('/', [
+    middlewares_1.validateAPIKey,
+    validation_1.validation
+], ranch_1.getRanchs);
 //# sourceMappingURL=ranch.js.map
