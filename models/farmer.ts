@@ -1,6 +1,7 @@
 import sequelize from 'sequelize'
 import db from '../db/config'
-import User from './User';
+import Ranch from './ranch';
+
 
 
 const Farmer = db.define('Farmer',{
@@ -23,8 +24,12 @@ const Farmer = db.define('Farmer',{
     
 })
 
-Farmer.hasOne(User,{
-    foreignKey: 'id'
+Farmer.hasMany(Ranch,{
+    foreignKey:'id'
+})
+
+Ranch.belongsTo(Farmer,{
+    foreignKey:'idFarmer'
 })
 
 

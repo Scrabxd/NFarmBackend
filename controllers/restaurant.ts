@@ -12,7 +12,7 @@ interface IReq extends Request {
 }
 
 
-export const addRestaurant = async(req:Request , res:Response) => {
+export const addRestaurant = async(req:any , res:Response) => {
     
     const 
     {

@@ -1,19 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.restaurant = void 0;
+exports.ranch = void 0;
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const controllers_1 = require("../controllers");
+const ranch_1 = require("../controllers/ranch");
 const middlewares_1 = require("../middlewares");
 const validation_1 = require("../middlewares/validation");
-exports.restaurant = (0, express_1.Router)();
-exports.restaurant.post('/', [
+exports.ranch = (0, express_1.Router)();
+exports.ranch.post('/', [
     middlewares_1.validateAPIKey,
     (0, express_validator_1.check)('city', 'The city is required').notEmpty(),
     (0, express_validator_1.check)('street', 'The street is required').notEmpty(),
-    (0, express_validator_1.check)('outsideNumber', 'The Outside number is required.').notEmpty(),
     (0, express_validator_1.check)('phoneNumber', 'Please input a valid phonen number').notEmpty().isLength({ min: 10 }),
     (0, express_validator_1.check)('postalCode', 'please input a valid Postal Code').notEmpty().isLength({ min: 5 }),
-    validation_1.validation,
-], controllers_1.addRestaurant);
-//# sourceMappingURL=restaurant.js.map
+    validation_1.validation
+], ranch_1.addRanch);
+//# sourceMappingURL=ranch.js.map
