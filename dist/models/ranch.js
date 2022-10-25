@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importDefault(require("sequelize"));
 const config_1 = __importDefault(require("../db/config"));
+const cows_1 = __importDefault(require("./cows"));
 const Ranch = config_1.default.define('Ranch', {
     id: {
         type: sequelize_1.default.NUMBER,
@@ -47,6 +48,12 @@ const Ranch = config_1.default.define('Ranch', {
         type: sequelize_1.default.BOOLEAN,
         allowNull: true
     }
+});
+Ranch.hasMany(cows_1.default, {
+    foreignKey: 'idRanch'
+});
+cows_1.default.belongsTo(Ranch, {
+    foreignKey: 'id'
 });
 exports.default = Ranch;
 //# sourceMappingURL=ranch.js.map

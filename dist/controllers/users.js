@@ -13,16 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.delUser = exports.putUser = exports.postUser = exports.getUser = exports.getUsers = void 0;
+const helpers_1 = require("../helpers");
 const farmer_1 = __importDefault(require("../models/farmer"));
 const restaurants_owner_1 = __importDefault(require("../models/restaurants_owner"));
 const User_1 = __importDefault(require("../models/User"));
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield farmer_1.default.findAll();
+    const user = yield User_1.default.findAll();
     res.json({ user });
 });
 exports.getUsers = getUsers;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const { id } = (0, helpers_1.getIdUser)(req);
     const user = yield User_1.default.findByPk(id);
     if (!user) {
         return res.status(404).json({
@@ -39,8 +40,8 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // 1 = Farmer
     // 2 = Restaurant Owner
     try {
-        let id = Math.ceil(Math.random() * 1000000000) + 100;
-        const userData = { id, name, lastName, email, password, idRole };
+        const { idGenerated } = (0, helpers_1.idGen)();
+        const userData = { id: idGenerated, name, lastName, email, password, idRole };
         const emailExists = yield User_1.default.findOne({
             where: {
                 email: email,
@@ -54,13 +55,13 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const createUser = User_1.default.build(userData);
         yield createUser.save();
         if (idRole === 1) {
-            const farmerData = { id, rfc, countryExportation, credentialExportation };
+            const farmerData = { id: idGenerated, rfc, countryExportation, credentialExportation };
             const createFarmer = farmer_1.default.build(farmerData);
             yield createFarmer.save();
             return res.json({ createUser, createFarmer });
         }
         else {
-            const Restaurant_ownersData = { id, rfc, restaurantName };
+            const Restaurant_ownersData = { id: idGenerated, rfc, restaurantName };
             const createRestaurant_owner = restaurants_owner_1.default.build(Restaurant_ownersData);
             yield createRestaurant_owner.save();
             return res.json({ createUser, createRestaurant_owner });
@@ -75,7 +76,7 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.postUser = postUser;
 const putUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const { id } = (0, helpers_1.getIdUser)(req);
     const { body } = req;
     try {
         const user = yield User_1.default.findByPk(id);
@@ -84,8 +85,24 @@ const putUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 msg: `No existe usuario con id: ${id}`
             });
         }
-        yield user.update(body);
-        res.json({ user });
+        if (user.idRole === 1) {
+            const farmer = yield farmer_1.default.findByPk(id);
+            yield user.update(body);
+            yield (farmer === null || farmer === void 0 ? void 0 : farmer.update(body));
+            return res.json({
+                user,
+                farmer
+            });
+        }
+        else {
+            const restaurant = yield restaurants_owner_1.default.findByPk(id);
+            yield user.update(body);
+            yield (restaurant === null || restaurant === void 0 ? void 0 : restaurant.update(body));
+            return res.json({
+                user,
+                restaurant
+            });
+        }
     }
     catch (error) {
         res.status(500).json({
@@ -95,8 +112,7 @@ const putUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.putUser = putUser;
 const delUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const uid = req.id;
+    const { id } = (0, helpers_1.getIdUser)(req);
     const user = yield User_1.default.findByPk(id);
     if (!user) {
         return res.status(404).json({
@@ -108,7 +124,6 @@ const delUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // await usuario.destroy(); borrar permanentemente registros.
     res.json({
         user,
-        uid,
         userAuth,
     });
 });

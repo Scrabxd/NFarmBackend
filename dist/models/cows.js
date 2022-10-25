@@ -13,7 +13,7 @@ const Cow = config_1.default.define('Cow', {
     },
     certificates: {
         type: sequelize_1.default.TEXT,
-        allowNull: false
+        allowNull: true
     },
     name: {
         type: sequelize_1.default.STRING,

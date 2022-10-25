@@ -29,6 +29,10 @@ const Branch = db.define('Branch',{
         type:sequelize.NUMBER,
         allowNull:false
     },
+    branchName:{
+        type:sequelize.STRING,
+        allowNull:false
+    },
     country:{
         type:sequelize.STRING,
         allowNull:false

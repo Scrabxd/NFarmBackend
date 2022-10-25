@@ -31,11 +31,9 @@ router.put('/', [
     (0, express_validator_1.check)('id').custom(dbValidators_1.usuarioValid),
     validation_1.validation
 ], users_1.putUser);
-router.delete('/:id', [
+router.delete('/', [
     middlewares_1.validateAPIKey,
     validateJWT_1.validateJWT,
-    (0, express_validator_1.check)('id', 'Insert an ID').not().isEmpty(),
-    (0, express_validator_1.check)('id').custom(dbValidators_1.usuarioValid),
     validation_1.validation
 ], users_1.delUser);
 exports.default = router;

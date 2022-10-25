@@ -1,7 +1,6 @@
 import bcrypt, { genSaltSync } from 'bcryptjs';
 import sequelize from 'sequelize'
 import db from '../db/config'
-import Farmer from './farmer';
 import Role from './role';
 
 type user = any;

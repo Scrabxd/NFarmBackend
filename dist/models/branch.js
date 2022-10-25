@@ -31,6 +31,10 @@ const Branch = config_1.default.define('Branch', {
         type: sequelize_1.default.NUMBER,
         allowNull: false
     },
+    branchName: {
+        type: sequelize_1.default.STRING,
+        allowNull: false
+    },
     country: {
         type: sequelize_1.default.STRING,
         allowNull: false

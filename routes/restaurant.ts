@@ -1,8 +1,8 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addRestaurant, getRestaurants } from '../controllers';
-import { validateAPIKey } from '../middlewares';
-import { validation } from '../middlewares/validation';
+import { addRestaurant, getRestaurants, updateRestaurant } from '../controllers';
+import { validateAPIKey,validation } from '../middlewares';
+
 
 
 
@@ -28,3 +28,10 @@ restaurant.get( '/',
     validation
 ]
 , getRestaurants )
+
+
+restaurant.put('/',
+[
+    validateAPIKey,
+    validation
+],updateRestaurant)

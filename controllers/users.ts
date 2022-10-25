@@ -1,20 +1,22 @@
 import { Request, Response } from "express";
+import { getuid } from "process";
+import { formatNamedParameters } from "sequelize/types/utils";
+import { getIdUser, idGen } from "../helpers";
 import Farmer from "../models/farmer";
 import Restaurant from "../models/restaurants_owner";
 import User from "../models/User";
 
+
 export const getUsers = async(req: Request, res: Response) => {
 
-    
-
-    const user = await Farmer.findAll()
+    const user = await User.findAll()
 
     res.json({user})
 }
 
 export const getUser = async(req: Request, res: Response) => {
 
-    const { id } = req.params
+    const { id } = getIdUser(req)
 
     const user = await User.findByPk( id )
 
@@ -44,13 +46,12 @@ export const postUser = async(req: Request, res: Response) => {
         restaurantName
     } = req.body
     
-    
     // 1 = Farmer
     // 2 = Restaurant Owner
 
     try {
-        let id =  Math.ceil(Math.random() * 1000000000) + 100;
-        const userData = {id, name, lastName,email,password,idRole }
+        const { idGenerated } = idGen();
+        const userData = {id:idGenerated, name, lastName,email,password,idRole }
         
             const emailExists = await User.findOne({
                 where:{
@@ -70,7 +71,7 @@ export const postUser = async(req: Request, res: Response) => {
         if(idRole === 1){
             
         
-            const farmerData = {id, rfc,countryExportation,credentialExportation}
+            const farmerData = {id:idGenerated, rfc,countryExportation,credentialExportation}
     
             const createFarmer = Farmer.build(farmerData);
             await createFarmer.save();
@@ -78,7 +79,7 @@ export const postUser = async(req: Request, res: Response) => {
 
             return res.json( {createUser, createFarmer} )
         }else{
-            const Restaurant_ownersData = { id, rfc, restaurantName} ;
+            const Restaurant_ownersData = { id:idGenerated, rfc, restaurantName} ;
 
             const createRestaurant_owner = Restaurant.build(Restaurant_ownersData);
             await createRestaurant_owner.save();
@@ -99,8 +100,8 @@ export const postUser = async(req: Request, res: Response) => {
     
 export const putUser = async (req: Request, res: Response) => {
     
-    const { id } = req.params
-    const { body } = req
+    const { id } = getIdUser( req );
+    const { body } = req;
 
     try {
 
@@ -111,8 +112,27 @@ export const putUser = async (req: Request, res: Response) => {
                 msg: `No existe usuario con id: ${ id }`
             });
         }
-        await user.update( body )
-         res.json( {user} )
+        if( user.idRole === 1){
+
+            const farmer = await Farmer.findByPk(id);
+
+            await user.update( body);
+            await farmer?.update( body );
+            return res.json( { 
+                user, 
+                farmer 
+            } )
+        }else{
+            const restaurant = await Restaurant.findByPk(id);
+            
+            await user.update(body);
+            await restaurant?.update(body);
+
+            return res.json({
+                user,
+                restaurant
+            })
+        }
 
 
 
@@ -124,14 +144,13 @@ export const putUser = async (req: Request, res: Response) => {
 }
 
 
-export const delUser = async (req: any, res: any) => {
+export const delUser = async (req: any, res: Response) => {
 
 
-    const { id } = req.params
-    const uid = req.id
+    const { id } = getIdUser(req);
 
         const user = await User.findByPk(id);
-    
+
         if(!user){
             return res.status(404).json({
                 msg: `No existe usuario con id: ${ id }`
@@ -139,14 +158,12 @@ export const delUser = async (req: any, res: any) => {
         }
 
         await user.update( { state:false } ); 
-
-        const userAuth = req.user;
+        const userAuth = req.user;  
 
         // await usuario.destroy(); borrar permanentemente registros.
         
         res.json ( {
             user,
-            uid,
             userAuth,
         })
         
@@ -154,3 +171,6 @@ export const delUser = async (req: any, res: any) => {
 
 
 }
+
+
+

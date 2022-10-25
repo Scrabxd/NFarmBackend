@@ -1,10 +1,19 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRanchs = exports.addRanch = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+exports.deleteRanch = exports.updateRanch = exports.getRanch = exports.addRanch = void 0;
+const helpers_1 = require("../helpers");
 const ranch_1 = __importDefault(require("../models/ranch"));
 const addRanch = (req, res) => {
     const { city, street, phoneNumber, postalCode, country, cowHeads, ranchName, } = req.body;
@@ -15,8 +24,7 @@ const addRanch = (req, res) => {
         });
     }
     try {
-        const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
-        const { id } = payload;
+        const { id } = (0, helpers_1.getIdUser)(req);
         let idR = Math.ceil(Math.random() * 1000000000) + 100;
         const newRanch = {
             id: idR,
@@ -43,19 +51,15 @@ const addRanch = (req, res) => {
     }
 };
 exports.addRanch = addRanch;
-const getRanchs = (req, res) => {
-    const token = req.header('x-token');
-    const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
-    const { id } = payload;
+const getRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = (0, helpers_1.getIdUser)(req);
     try {
-        const findRanch = ranch_1.default.findAll({
+        const ranch = yield ranch_1.default.findAll({
             where: {
                 idFarmer: id
             }
         });
-        return res.status(200).json({
-            findRanch
-        });
+        return res.status(200).json({ ranch });
     }
     catch (error) {
         console.log(error);
@@ -63,6 +67,14 @@ const getRanchs = (req, res) => {
             msg: 'Talk to the admin'
         });
     }
+});
+exports.getRanch = getRanch;
+const updateRanch = (req, res) => {
+    const { id } = (0, helpers_1.getIdUser)(req);
 };
-exports.getRanchs = getRanchs;
+exports.updateRanch = updateRanch;
+const deleteRanch = (req, res) => {
+    const { id } = (0, helpers_1.getIdUser)(req);
+};
+exports.deleteRanch = deleteRanch;
 //# sourceMappingURL=ranch.js.map

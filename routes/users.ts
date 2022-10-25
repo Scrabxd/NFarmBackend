@@ -5,6 +5,7 @@ import { usuarioValid } from '../helpers/dbValidators';
 import { validation } from '../middlewares/validation';
 import { validateJWT } from '../middlewares/validateJWT';
 import { validateAPIKey } from '../middlewares';
+
 const router = Router();
 
 
@@ -44,12 +45,10 @@ router.put('/',
 ]
 , putUser);
 
-router.delete('/:id',
+router.delete('/',
 [   
     validateAPIKey,
     validateJWT,
-    check('id','Insert an ID').not().isEmpty(),
-    check('id').custom(usuarioValid),
     validation
 ]
 ,delUser);

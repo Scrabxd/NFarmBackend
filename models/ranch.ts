@@ -1,5 +1,6 @@
 import sequelize from 'sequelize'
 import db from '../db/config'
+import Cow from './cows';
 
 
 const Ranch = db.define('Ranch',{
@@ -44,6 +45,14 @@ const Ranch = db.define('Ranch',{
         type:sequelize.BOOLEAN,
         allowNull:true
     }
+})
+
+Ranch.hasMany(Cow,{
+    foreignKey: 'idRanch'
+})
+
+Cow.belongsTo(Ranch,{
+    foreignKey:'id'
 })
 
 export default Ranch;

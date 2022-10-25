@@ -1,6 +1,7 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addCow, getCows } from '../controllers/cow';
+import { addCow } from '../controllers/cow';
+import { getCows } from '../controllers';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
 

@@ -72,7 +72,6 @@ class Server {
         this.app.use(this.apiPath.restaurant, restaurant)
         this.app.use(this.apiPath.ranch, ranch)
         this.app.use(this.apiPath.cow, cow)
-        
 
     }
 

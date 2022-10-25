@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRestaurants = exports.addRestaurant = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+exports.deleteRestaurant = exports.updateRestaurant = exports.getRestaurants = exports.addRestaurant = void 0;
+const helpers_1 = require("../helpers");
 const branch_1 = __importDefault(require("../models/branch"));
 const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { city, street, phoneNumber, outsideNumber, postalCode, country } = req.body;
+    const { city, street, phoneNumber, outsideNumber, postalCode, country, branchName } = req.body;
     const token = req.header('x-token');
     if (!token) {
         return res.status(401).json({
@@ -24,8 +24,7 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     try {
-        const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
-        const { id } = payload;
+        const { id } = (0, helpers_1.getIdUser)(req);
         let idRes = Math.ceil(Math.random() * 1000000000) + 100;
         const newBranch = {
             id: idRes,
@@ -35,7 +34,8 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             phoneNumber,
             postalCode,
             country,
-            idOwner: id
+            idOwner: id,
+            branchName,
         };
         const createBranch = branch_1.default.build(newBranch);
         createBranch.save();
@@ -51,9 +51,7 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.addRestaurant = addRestaurant;
 const getRestaurants = (req, res) => {
-    const token = req.header('x-token');
-    const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
-    const { id } = payload;
+    const { id } = (0, helpers_1.getIdUser)(req);
     try {
         const findRestaurant = branch_1.default.findAll({
             where: {
@@ -61,7 +59,7 @@ const getRestaurants = (req, res) => {
             }
         });
         return res.status(200).json({
-            findRestaurant
+            findRestaurant,
         });
     }
     catch (error) {
@@ -72,4 +70,44 @@ const getRestaurants = (req, res) => {
     }
 };
 exports.getRestaurants = getRestaurants;
+const updateRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = (0, helpers_1.getIdUser)(req);
+    const { name } = req.body;
+    const { body } = req;
+    try {
+        const branch = yield branch_1.default.findOne({
+            where: {
+                idOwner: id,
+                branchName: name
+            }
+        });
+        branch === null || branch === void 0 ? void 0 : branch.update(body);
+        return res.status(200).json({
+            branch
+        });
+        // await branch?.update( body )
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to an admin'
+        });
+    }
+});
+exports.updateRestaurant = updateRestaurant;
+const deleteRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = (0, helpers_1.getIdUser)(req);
+    const { name } = req.body;
+    const branch = yield branch_1.default.findOne({
+        where: {
+            idOwner: id,
+            branchName: name
+        }
+    });
+    yield (branch === null || branch === void 0 ? void 0 : branch.update({ state: false }));
+    res.status(200).json({
+        branch
+    });
+});
+exports.deleteRestaurant = deleteRestaurant;
 //# sourceMappingURL=restaurant.js.map

@@ -1,12 +1,20 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addRanch, getRanchs } from '../controllers/ranch';
+import { getRanch } from '../controllers';
+import { addRanch } from '../controllers/ranch';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
 
 
 
 export const ranch  = Router();
+
+ranch.get('/',
+[
+    validateAPIKey,
+    validation
+]
+,getRanch)
 
 ranch.post('/',
 
@@ -21,10 +29,3 @@ ranch.post('/',
 , addRanch)
 
 
-
-ranch.get('/',
-[
-    validateAPIKey,
-    validation
-]
-,getRanchs)

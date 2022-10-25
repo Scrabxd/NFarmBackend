@@ -9,7 +9,7 @@ const Cow = db.define('Cow',{
     },
     certificates:{
         type:sequelize.TEXT,
-        allowNull:false
+        allowNull:true
     },
     name:{
         type:sequelize.STRING,
