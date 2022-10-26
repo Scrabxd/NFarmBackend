@@ -1,9 +1,7 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addRestaurant, getRestaurants, updateRestaurant } from '../controllers';
+import { addRestaurant, deleteRestaurant, getRestaurants, updateRestaurant } from '../controllers';
 import { validateAPIKey,validation } from '../middlewares';
-
-
 
 
 export const restaurant = Router();
@@ -35,3 +33,10 @@ restaurant.put('/',
     validateAPIKey,
     validation
 ],updateRestaurant)
+
+restaurant.delete('/',
+
+[
+    validateAPIKey,
+    validation
+], deleteRestaurant)

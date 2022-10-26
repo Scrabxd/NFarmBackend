@@ -50,12 +50,14 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.addRestaurant = addRestaurant;
-const getRestaurants = (req, res) => {
+const getRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
+    //Get all active restaurants.
     try {
-        const findRestaurant = branch_1.default.findAll({
+        const findRestaurant = yield branch_1.default.findAll({
             where: {
-                idOwner: id
+                idOwner: id,
+                state: true
             }
         });
         return res.status(200).json({
@@ -68,11 +70,11 @@ const getRestaurants = (req, res) => {
             msg: 'Talk to an admin'
         });
     }
-};
+});
 exports.getRestaurants = getRestaurants;
 const updateRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-    const { name } = req.body;
+    const name = req.header('branchName');
     const { body } = req;
     try {
         const branch = yield branch_1.default.findOne({
@@ -97,17 +99,25 @@ const updateRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.updateRestaurant = updateRestaurant;
 const deleteRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-    const { name } = req.body;
-    const branch = yield branch_1.default.findOne({
-        where: {
-            idOwner: id,
-            branchName: name
-        }
-    });
-    yield (branch === null || branch === void 0 ? void 0 : branch.update({ state: false }));
-    res.status(200).json({
-        branch
-    });
+    const name = req.header('branchName');
+    try {
+        const branch = yield branch_1.default.findOne({
+            where: {
+                idOwner: id,
+                branchName: name
+            }
+        });
+        yield (branch === null || branch === void 0 ? void 0 : branch.update({ state: false }));
+        return res.status(200).json({
+            branch
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to the admin'
+        });
+    }
 });
 exports.deleteRestaurant = deleteRestaurant;
 //# sourceMappingURL=restaurant.js.map

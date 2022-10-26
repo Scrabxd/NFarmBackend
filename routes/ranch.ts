@@ -1,7 +1,8 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
+import { ValidationErrorItemOrigin } from 'sequelize';
 import { getRanch } from '../controllers';
-import { addRanch } from '../controllers/ranch';
+import { addRanch, deleteRanch, updateRanch } from '../controllers/ranch';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
 
@@ -29,3 +30,15 @@ ranch.post('/',
 , addRanch)
 
 
+ranch.put('/',
+[
+    validateAPIKey,
+    validation
+], updateRanch)
+
+ranch.delete('/',
+[
+    validateAPIKey,
+    validation
+    
+], deleteRanch)

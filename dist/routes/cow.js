@@ -14,5 +14,13 @@ cow.get('/', [
     middlewares_1.validateAPIKey,
     validation_1.validation
 ], controllers_1.getCows);
+cow.put('/', [
+    middlewares_1.validateAPIKey,
+    validation_1.validation
+], cow_1.updateCow);
+cow.delete('/', [
+    middlewares_1.validateAPIKey,
+    validation_1.validation
+], cow_1.deleteCow);
 exports.default = cow;
 //# sourceMappingURL=cow.js.map

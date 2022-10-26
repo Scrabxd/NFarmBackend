@@ -23,4 +23,8 @@ exports.restaurant.put('/', [
     middlewares_1.validateAPIKey,
     middlewares_1.validation
 ], controllers_1.updateRestaurant);
+exports.restaurant.delete('/', [
+    middlewares_1.validateAPIKey,
+    middlewares_1.validation
+], controllers_1.deleteRestaurant);
 //# sourceMappingURL=restaurant.js.map

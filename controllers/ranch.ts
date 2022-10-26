@@ -1,12 +1,8 @@
 import { Request, Response } from "express";
-import jwt  from "jsonwebtoken";
-import { getIdUser } from "../helpers";
+import { getIdUser, idGen } from "../helpers";
 import Ranch from "../models/ranch";
 
 
-interface RPayload {
-    id:number;
-}
 
 
 export const addRanch = ( req:any, res:Response ) =>{
@@ -24,19 +20,20 @@ export const addRanch = ( req:any, res:Response ) =>{
     const token = req.header( 'x-token' );
 
     if( !token ){
-        return res.status(401).json({
+
+        return res.status( 401 ).json({
             msg:' No token in the petition '
         })
     }
 
     try {
 
-        const {id} = getIdUser(req)
+        const { id } = getIdUser(req)
 
-        let idR = Math.ceil( Math.random() * 1000000000 ) + 100;
+        const { idGenerated } = idGen()
 
         const newRanch = {
-            id: idR,
+            id: idGenerated,
             city,
             street,
             phoneNumber,
@@ -54,9 +51,12 @@ export const addRanch = ( req:any, res:Response ) =>{
             createRanch
         })
         
-    } catch (error) {
+    } catch ( error ) {
+
         console.log( error )
+
         return res.status(400).json({
+
             msg:'Talk to an admin',
 
         })
@@ -76,15 +76,19 @@ export const getRanch  = async( req: Request , res: Response ) => {
     try {
         const ranch = await Ranch.findAll({
             where:{
-                idFarmer:id
+                idFarmer:id,
+                state:true
             }
         });
         
         return res.status(200).json({ranch});
         
-    } catch (error) {
-        console.log(error);
-        return res.status(200).json({
+    } catch ( error ) {
+
+        console.log( error );
+
+        return res.status( 200 ).json({
+
             msg:'Talk to the admin'
         })
     }
@@ -94,10 +98,69 @@ export const getRanch  = async( req: Request , res: Response ) => {
 
 
 
-export const updateRanch = ( req:Request, res: Response ) => {
-    const {id} = getIdUser(req)
+export const updateRanch = async ( req:any, res: Response ) => {
+
+    const { id } = getIdUser( req )
+
+    const name  = req.header('ranchName');
+
+    const { body } = req;
+
+    try {
+        
+        const ranch = await Ranch.findOne({
+            where:{
+                idFarmer: id,
+                id: name
+            }
+        })
+
+        ranch?.update(body);
+
+        return res.status( 200 ).json({
+            ranch
+        })
+
+    } catch ( error ) {
+        console.log( error );
+
+        return res.status( 400 ).json({
+            msg: 'Talk to the admin'
+        });
+    }
+
+
 }
 
-export const deleteRanch = (req: Request, res: Response ) => {
-    const {id} = getIdUser(req)
+export const deleteRanch = async ( req: Request, res: Response ) => {
+
+    const { id } = getIdUser( req );
+
+    const name = req.header('ranchName');
+
+    try {
+
+        const ranch = await Ranch.findOne({
+            where:{
+                idFarmer: id,
+                id: name
+            }
+        })
+
+        ranch?.update( { state:false } );
+
+        return res.status( 200 ).json({
+            ranch
+        })
+        
+    } catch ( error ) {
+        
+        console.log( error );
+
+        return res.status( 400 ).json({
+            msg: 'Talk to the admin '
+        })
+    }
+
+
 }

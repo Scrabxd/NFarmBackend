@@ -25,9 +25,9 @@ const addRanch = (req, res) => {
     }
     try {
         const { id } = (0, helpers_1.getIdUser)(req);
-        let idR = Math.ceil(Math.random() * 1000000000) + 100;
+        const { idGenerated } = (0, helpers_1.idGen)();
         const newRanch = {
-            id: idR,
+            id: idGenerated,
             city,
             street,
             phoneNumber,
@@ -56,7 +56,8 @@ const getRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const ranch = yield ranch_1.default.findAll({
             where: {
-                idFarmer: id
+                idFarmer: id,
+                state: true
             }
         });
         return res.status(200).json({ ranch });
@@ -69,12 +70,51 @@ const getRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getRanch = getRanch;
-const updateRanch = (req, res) => {
+const updateRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-};
+    const name = req.header('ranchName');
+    const { body } = req;
+    try {
+        const ranch = yield ranch_1.default.findOne({
+            where: {
+                idFarmer: id,
+                id: name
+            }
+        });
+        ranch === null || ranch === void 0 ? void 0 : ranch.update(body);
+        return res.status(200).json({
+            ranch
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to the admin'
+        });
+    }
+});
 exports.updateRanch = updateRanch;
-const deleteRanch = (req, res) => {
+const deleteRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-};
+    const name = req.header('ranchName');
+    try {
+        const ranch = yield ranch_1.default.findOne({
+            where: {
+                idFarmer: id,
+                id: name
+            }
+        });
+        ranch === null || ranch === void 0 ? void 0 : ranch.update({ state: false });
+        return res.status(200).json({
+            ranch
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to the admin '
+        });
+    }
+});
 exports.deleteRanch = deleteRanch;
 //# sourceMappingURL=ranch.js.map

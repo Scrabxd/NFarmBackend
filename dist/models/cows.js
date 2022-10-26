@@ -27,6 +27,10 @@ const Cow = config_1.default.define('Cow', {
         type: sequelize_1.default.NUMBER,
         allowNull: false
     },
+    state: {
+        type: sequelize_1.default.BOOLEAN,
+        allowNull: true
+    },
     idRanch: {
         type: sequelize_1.default.NUMBER,
         allowNull: false

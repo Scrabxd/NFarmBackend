@@ -35,6 +35,10 @@ const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to an admin'
+        });
     }
 });
 exports.addCow = addCow;
@@ -58,12 +62,51 @@ const getCows = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getCows = getCows;
-const updateCow = (req, res) => {
-    const { id } = (0, helpers_1.getIdUser)(req);
-};
+const updateCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ranchId = req.header('ranchId');
+    const name = req.header('cowName');
+    const { body } = req;
+    try {
+        const cow = yield cows_1.default.findOne({
+            where: {
+                idRanch: ranchId,
+                id: name
+            }
+        });
+        cow === null || cow === void 0 ? void 0 : cow.update(body);
+        res.status(200).json({
+            cow
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to the admin'
+        });
+    }
+});
 exports.updateCow = updateCow;
-const deleteCow = (req, res) => {
-    const { id } = (0, helpers_1.getIdUser)(req);
-};
+const deleteCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ranchId = req.header('ranchId');
+    const name = req.header('cowName');
+    try {
+        const cow = yield cows_1.default.findOne({
+            where: {
+                idRanch: ranchId,
+                id: name
+            }
+        });
+        cow === null || cow === void 0 ? void 0 : cow.update({ state: false });
+        return res.status(200).json({
+            cow
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Talk to the admin'
+        });
+    }
+});
 exports.deleteCow = deleteCow;
 //# sourceMappingURL=cow.js.map

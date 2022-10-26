@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { getuid } from "process";
-import { formatNamedParameters } from "sequelize/types/utils";
 import { getIdUser, idGen } from "../helpers";
 import Farmer from "../models/farmer";
 import Restaurant from "../models/restaurants_owner";

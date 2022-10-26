@@ -1,7 +1,4 @@
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken';
-import { userInfo } from "os";
-import { json, Model } from "sequelize";
 import { getIdUser } from "../helpers"  ;
 import Branch from "../models/branch";
 
@@ -65,15 +62,18 @@ export const addRestaurant = async(req:Request , res:Response) => {
 }
 
 
-export const getRestaurants = ( req: any , res: Response ) => {
+export const getRestaurants = async( req: any , res: Response ) => {
     
     const {id} = getIdUser(req);
 
+    //Get all active restaurants.
+
     try {
 
-        const findRestaurant = Branch.findAll({
+        const findRestaurant = await Branch.findAll({
             where:{
-                idOwner : id
+                idOwner : id,
+                state:true
             }
         })
 
@@ -104,7 +104,7 @@ export const updateRestaurant = async(req: any, res: Response) => {
 
     const { id } = getIdUser( req );
     
-    const { name } = req.body;
+    const name = req.header('branchName');
 
     const { body } = req
 
@@ -143,21 +143,30 @@ export const deleteRestaurant = async( req: any, res:Response ) => {
 
     const { id } = getIdUser( req );
 
-    const { name } = req.body;
+    const name = req.header('branchName');
 
-    const branch = await Branch.findOne({
-        where:{
-            idOwner: id,
-            branchName: name
-        }
+    try{
+        const branch = await Branch.findOne({
+            where:{
+                idOwner: id,
+                branchName: name
+            }
 
-    })    
+        })    
 
-    await branch?.update( { state:false } );
+        await branch?.update( { state:false } );
 
 
-    res.status(200).json({
-        branch
-    })
+        return res.status(200).json({
+            branch
+        })  
+    } catch ( error ){
+      
+        console.log( error );
+        
+        return res.status(400).json({
+            msg: 'Talk to the admin'
+        })
+    }
 
 }

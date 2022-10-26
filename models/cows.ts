@@ -23,6 +23,10 @@ const Cow = db.define('Cow',{
         type:sequelize.NUMBER,
         allowNull:false
     },
+    state:{
+        type:sequelize.BOOLEAN,
+        allowNull:true
+    },
     idRanch:{
         type:sequelize.NUMBER,
         allowNull:false
