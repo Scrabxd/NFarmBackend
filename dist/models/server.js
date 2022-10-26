@@ -17,11 +17,17 @@ const users_1 = __importDefault(require("../routes/users"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = __importDefault(require("../db/config"));
 const auth_1 = require("../routes/auth");
+const routes_1 = require("../routes");
+const ranch_1 = require("../routes/ranch");
+const cow_1 = __importDefault(require("../routes/cow"));
 class Server {
     constructor() {
         this.apiPath = {
-            usuarios: '/api/nfarm',
-            auth: '/api/auth'
+            users: '/api/nfarm',
+            auth: '/api/auth',
+            restaurant: '/api/restaurant',
+            ranch: '/api/ranch',
+            cow: '/api/cow'
         };
         // Metodos iniciales
         this.app = (0, express_1.default)();
@@ -54,7 +60,10 @@ class Server {
     }
     routes() {
         this.app.use(this.apiPath.auth, auth_1.auth);
-        this.app.use(this.apiPath.usuarios, users_1.default);
+        this.app.use(this.apiPath.users, users_1.default);
+        this.app.use(this.apiPath.restaurant, routes_1.restaurant);
+        this.app.use(this.apiPath.ranch, ranch_1.ranch);
+        this.app.use(this.apiPath.cow, cow_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

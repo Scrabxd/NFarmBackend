@@ -3,6 +3,9 @@ import router from '../routes/users';
 import cors from 'cors'
 import db from '../db/config';
 import { auth } from '../routes/auth';
+import { restaurant } from '../routes';
+import { ranch } from '../routes/ranch';
+import cow from '../routes/cow';
 
 
 class Server {
@@ -10,8 +13,11 @@ class Server {
     private app : Application ;
     private port : string ;
     private apiPath = {
-        usuarios: '/api/nfarm',
-        auth:'/api/auth'
+        users: '/api/nfarm',
+        auth:'/api/auth',
+        restaurant:'/api/restaurant',
+        ranch:'/api/ranch',
+        cow:'/api/cow'
     }
 
 
@@ -62,8 +68,10 @@ class Server {
     routes(){
 
         this.app.use(this.apiPath.auth, auth)
-        this.app.use(this.apiPath.usuarios, router)
-        
+        this.app.use(this.apiPath.users, router)
+        this.app.use(this.apiPath.restaurant, restaurant)
+        this.app.use(this.apiPath.ranch, ranch)
+        this.app.use(this.apiPath.cow, cow)
 
     }
 

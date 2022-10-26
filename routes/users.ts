@@ -5,6 +5,7 @@ import { usuarioValid } from '../helpers/dbValidators';
 import { validation } from '../middlewares/validation';
 import { validateJWT } from '../middlewares/validateJWT';
 import { validateAPIKey } from '../middlewares';
+
 const router = Router();
 
 
@@ -16,7 +17,7 @@ router.get('/',
 getUsers);
 
 
-router.get('/:id',
+router.get('/',
 [
     validateAPIKey,
     check('id','Insert an ID').not().isEmpty(),
@@ -35,7 +36,7 @@ router.post('/',
 ]
 ,postUser);
 
-router.put('/:id',
+router.put('/',
 [
     validateAPIKey,
     check('id','Insert an ID').not().isEmpty(),
@@ -44,12 +45,10 @@ router.put('/:id',
 ]
 , putUser);
 
-router.delete('/:id',
+router.delete('/',
 [   
     validateAPIKey,
     validateJWT,
-    check('id','Insert an ID').not().isEmpty(),
-    check('id').custom(usuarioValid),
     validation
 ]
 ,delUser);

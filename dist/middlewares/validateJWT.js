@@ -24,7 +24,8 @@ const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     try {
         const payload = jsonwebtoken_1.default.verify(token, process.env.SecretKey);
-        const user = yield User_1.default.findByPk(payload.id);
+        const { id } = payload;
+        const user = yield User_1.default.findByPk(id);
         if (!user) {
             return res.status(401).json({
                 msg: 'User does not exist.'

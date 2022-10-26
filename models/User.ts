@@ -1,7 +1,6 @@
 import bcrypt, { genSaltSync } from 'bcryptjs';
 import sequelize from 'sequelize'
 import db from '../db/config'
-import Farmer from './farmer';
 import Role from './role';
 
 type user = any;
@@ -15,7 +14,7 @@ const User = db.define('User',{
         type: sequelize.STRING,
         allowNull:false,
     },
-    last_name:{
+    lastName:{
         type: sequelize.STRING,
         allowNull:false
     },
@@ -32,7 +31,7 @@ const User = db.define('User',{
         type:sequelize.BOOLEAN,
         allowNull:true
     },
-    id_role:{
+    idRole:{
         type:sequelize.NUMBER,
         allowNull:false
     }
@@ -41,6 +40,7 @@ const User = db.define('User',{
     hooks:{
         beforeCreate: async(user:user) => {
             if(user.password){
+                
                 const salt = genSaltSync();
                 user.password = bcrypt.hashSync(user.password, salt)
             }

@@ -12,7 +12,7 @@ router.get('/', [
     middlewares_1.validateAPIKey,
     validation_1.validation
 ], users_1.getUsers);
-router.get('/:id', [
+router.get('/', [
     middlewares_1.validateAPIKey,
     (0, express_validator_1.check)('id', 'Insert an ID').not().isEmpty(),
     (0, express_validator_1.check)('id').custom(dbValidators_1.usuarioValid),
@@ -25,17 +25,15 @@ router.post('/', [
     (0, express_validator_1.check)('rfc', 'Invalid RFC').isLength({ min: 12 }),
     validation_1.validation
 ], users_1.postUser);
-router.put('/:id', [
+router.put('/', [
     middlewares_1.validateAPIKey,
     (0, express_validator_1.check)('id', 'Insert an ID').not().isEmpty(),
     (0, express_validator_1.check)('id').custom(dbValidators_1.usuarioValid),
     validation_1.validation
 ], users_1.putUser);
-router.delete('/:id', [
+router.delete('/', [
     middlewares_1.validateAPIKey,
     validateJWT_1.validateJWT,
-    (0, express_validator_1.check)('id', 'Insert an ID').not().isEmpty(),
-    (0, express_validator_1.check)('id').custom(dbValidators_1.usuarioValid),
     validation_1.validation
 ], users_1.delUser);
 exports.default = router;

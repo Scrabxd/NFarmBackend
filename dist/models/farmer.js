@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importDefault(require("sequelize"));
 const config_1 = __importDefault(require("../db/config"));
-const User_1 = __importDefault(require("./User"));
+const ranch_1 = __importDefault(require("./ranch"));
 const Farmer = config_1.default.define('Farmer', {
     id: {
         type: sequelize_1.default.NUMBER,
@@ -15,17 +15,20 @@ const Farmer = config_1.default.define('Farmer', {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    country_Exportation: {
+    countryExportation: {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    credential_Exportation: {
+    credentialExportation: {
         type: sequelize_1.default.STRING,
         allowNull: false
     }
 });
-Farmer.hasOne(User_1.default, {
+Farmer.hasMany(ranch_1.default, {
     foreignKey: 'id'
+});
+ranch_1.default.belongsTo(Farmer, {
+    foreignKey: 'idFarmer'
 });
 exports.default = Farmer;
 //# sourceMappingURL=farmer.js.map
