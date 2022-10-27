@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getIdUser } from "../helpers"  ;
+import { getIdUser, idGen } from "../helpers"  ;
 import Branch from "../models/branch";
 
 
@@ -31,10 +31,10 @@ export const addRestaurant = async(req:Request , res:Response) => {
         
         const {id} = getIdUser(req);
         
-        let idRes =  Math.ceil(Math.random() * 1000000000) + 100;
+        const { idGenerated } = idGen();
 
         const newBranch = {
-            id: idRes, 
+            id: idGenerated, 
             city ,
             street,
             outsideNumber,
@@ -46,7 +46,7 @@ export const addRestaurant = async(req:Request , res:Response) => {
         }
 
         const createBranch = Branch.build(newBranch);
-        createBranch.save();
+        await createBranch.save();
 
         return res.status(201).json({
             createBranch
@@ -66,7 +66,6 @@ export const getRestaurants = async( req: any , res: Response ) => {
     
     const {id} = getIdUser(req);
 
-    //Get all active restaurants.
 
     try {
 

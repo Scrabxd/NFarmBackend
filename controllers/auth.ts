@@ -43,7 +43,6 @@ export const login = async (req:Request, res:Response) => {
 
         
         res.json({
-            msg:'Login OKIDOKI',
             user,
             token
         })

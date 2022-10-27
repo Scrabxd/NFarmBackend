@@ -8,5 +8,7 @@ namespace NodeJS {
       PGPORT:number;
       PGUSER:string;
       ApiKey:string;
+      AWSAccessKeyId:string;
+      AWSSecretKey:string
     }
   }

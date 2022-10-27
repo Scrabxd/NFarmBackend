@@ -6,18 +6,22 @@ import { auth } from '../routes/auth';
 import { restaurant } from '../routes';
 import { ranch } from '../routes/ranch';
 import cow from '../routes/cow';
+import upload from '../routes/uploads';
 
 
 class Server {
     
     private app : Application ;
+    
     private port : string ;
+
     private apiPath = {
         users: '/api/nfarm',
         auth:'/api/auth',
         restaurant:'/api/restaurant',
         ranch:'/api/ranch',
-        cow:'/api/cow'
+        cow:'/api/cow',
+        upload:'/api/upload'
     }
 
 
@@ -37,9 +41,6 @@ class Server {
         this.routes()
 
     }
-
-    // TODO:  Conectar con base de datos.
-
 
     async dbConn () {
         try {
@@ -62,16 +63,17 @@ class Server {
         this.app.use( express.json() );
 
         // carpeta publica, donde iria la app
-        this.app.use(express.static('public'))
+        this.app.use(express.static('public'));
     }
 
     routes(){
 
-        this.app.use(this.apiPath.auth, auth)
-        this.app.use(this.apiPath.users, router)
-        this.app.use(this.apiPath.restaurant, restaurant)
-        this.app.use(this.apiPath.ranch, ranch)
-        this.app.use(this.apiPath.cow, cow)
+        this.app.use(this.apiPath.auth, auth);
+        this.app.use(this.apiPath.users, router);
+        this.app.use(this.apiPath.restaurant, restaurant);
+        this.app.use(this.apiPath.ranch, ranch);
+        this.app.use(this.apiPath.cow, cow);
+        this.app.use(this.apiPath.upload, upload);
 
     }
 
