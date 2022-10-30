@@ -47,7 +47,8 @@ const getCows = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const findCows = yield cows_1.default.findAll({
             where: {
-                idRanch: id
+                idRanch: id,
+                state: true
             }
         });
         return res.status(200).json({
