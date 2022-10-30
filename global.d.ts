@@ -5,8 +5,11 @@ namespace NodeJS {
       PGDATABASE:string;
       PGHOST:string;
       PGPASSWORD:string;
-      PGPORT:number;
+      PGPORT:string;
       PGUSER:string;
+      PGURL:string;
       ApiKey:string;
+      AWSAccessKeyId:string;
+      AWSSecretKey:string
     }
   }

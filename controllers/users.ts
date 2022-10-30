@@ -7,7 +7,11 @@ import User from "../models/User";
 
 export const getUsers = async(req: Request, res: Response) => {
 
-    const user = await User.findAll()
+    const user = await User.findAll({
+        where:{
+            state:true
+        }
+    })
 
     res.json({user})
 }
@@ -24,9 +28,16 @@ export const getUser = async(req: Request, res: Response) => {
         })
     }
     
-    res.json({
-        user
-    })
+    if( user.status === true){
+
+        return res.json({
+            user
+        })
+    }else{
+        return res.json({
+            msg:'The account you are trying to reach has been deleted or does not exist'
+        })
+    }
 }
 
 

@@ -25,9 +25,9 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     try {
         const { id } = (0, helpers_1.getIdUser)(req);
-        let idRes = Math.ceil(Math.random() * 1000000000) + 100;
+        const { idGenerated } = (0, helpers_1.idGen)();
         const newBranch = {
-            id: idRes,
+            id: idGenerated,
             city,
             street,
             outsideNumber,
@@ -38,7 +38,7 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             branchName,
         };
         const createBranch = branch_1.default.build(newBranch);
-        createBranch.save();
+        yield createBranch.save();
         return res.status(201).json({
             createBranch
         });
@@ -52,7 +52,6 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.addRestaurant = addRestaurant;
 const getRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-    //Get all active restaurants.
     try {
         const findRestaurant = yield branch_1.default.findAll({
             where: {
