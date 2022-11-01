@@ -17,9 +17,21 @@ const helpers_1 = require("../helpers");
 const cows_1 = __importDefault(require("../models/cows"));
 const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
+    const { idGenerated } = (0, helpers_1.idGen)();
+    const { certificates, name, breed, weight, } = req.body;
     try {
-        const { idGenerated } = (0, helpers_1.idGen)();
-        const { certificates, name, breed, weight, } = req.body;
+        const existCow = yield cows_1.default.findOne({
+            where: {
+                name: name,
+                idRanch: id,
+                state: true
+            }
+        });
+        if (existCow) {
+            return res.status(400).json({
+                msg: 'Cow Exits in this ranch'
+            });
+        }
         const cowData = {
             id: idGenerated,
             certificates,

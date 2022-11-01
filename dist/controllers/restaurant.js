@@ -26,24 +26,38 @@ const addRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const { id } = (0, helpers_1.getIdUser)(req);
         const { idGenerated } = (0, helpers_1.idGen)();
-        const newBranch = {
-            id: idGenerated,
-            city,
-            street,
-            outsideNumber,
-            phoneNumber,
-            postalCode,
-            country,
-            idOwner: id,
-            branchName,
-        };
-        const createBranch = branch_1.default.build(newBranch);
-        yield createBranch.save();
-        return res.status(201).json({
-            createBranch
+        const existBranch = yield branch_1.default.findOne({
+            where: {
+                street: street,
+                outsideNumber: outsideNumber,
+                idOwner: id,
+                state: true
+            }
+        });
+        if (!existBranch) {
+            const newBranch = {
+                id: idGenerated,
+                city,
+                street,
+                outsideNumber,
+                phoneNumber,
+                postalCode,
+                country,
+                idOwner: id,
+                branchName,
+            };
+            const createBranch = branch_1.default.build(newBranch);
+            yield createBranch.save();
+            return res.status(201).json({
+                createBranch
+            });
+        }
+        return res.status(400).json({
+            msg: 'Existing Ranch'
         });
     }
     catch (error) {
+        console.log(error);
         return res.status(400).json({
             msg: 'Talk to an admin'
         });

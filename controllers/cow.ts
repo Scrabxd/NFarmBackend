@@ -8,18 +8,34 @@ export const addCow = async( req: Request, res: Response ) => {
 
         const { id } = getIdUser( req )
     
-    try {
         const { idGenerated } = idGen()
+        
         
         const {
             certificates,
             name,
             breed,
             weight,
-
+            
         } = req.body
 
+    try {
+        
+        const existCow = await Cow.findOne({
+            where:{
+                name:name,
+                idRanch:id,
+                state:true
+            }
+        })
 
+        if( existCow ){
+
+            return res.status( 400 ).json({
+                msg: 'Cow Exits in this ranch'
+            })
+
+        }
         const cowData = {
             id:idGenerated, 
             certificates,
