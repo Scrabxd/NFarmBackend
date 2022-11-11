@@ -18,7 +18,11 @@ const farmer_1 = __importDefault(require("../models/farmer"));
 const restaurants_owner_1 = __importDefault(require("../models/restaurants_owner"));
 const User_1 = __importDefault(require("../models/User"));
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield User_1.default.findAll();
+    const user = yield User_1.default.findAll({
+        where: {
+            state: true
+        }
+    });
     res.json({ user });
 });
 exports.getUsers = getUsers;
@@ -30,9 +34,16 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             msg: `No User with the id: ${id}`
         });
     }
-    res.json({
-        user
-    });
+    if (user.status === true) {
+        return res.json({
+            user
+        });
+    }
+    else {
+        return res.json({
+            msg: 'The account you are trying to reach has been deleted or does not exist'
+        });
+    }
 });
 exports.getUser = getUser;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
