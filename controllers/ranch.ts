@@ -5,7 +5,7 @@ import Ranch from "../models/ranch";
 
 
 
-export const addRanch = ( req:any, res:Response ) =>{
+export const addRanch = async( req:any, res:Response ) =>{
 
     const {
         city,
@@ -25,13 +25,28 @@ export const addRanch = ( req:any, res:Response ) =>{
             msg:' No token in the petition '
         })
     }
-
     try {
 
         const { id } = getIdUser(req)
 
         const { idGenerated } = idGen()
 
+        const existRanch = await Ranch.findOne({
+            where:{
+                street:street,
+                country:country,
+                idFarmer: id,
+                state:true
+
+            }
+        })
+        
+        if ( existRanch ){
+            return res.status(400).json({
+                msg:'This Ranch Already exists'
+            })
+
+        }
         const newRanch = {
             id: idGenerated,
             city,
@@ -45,11 +60,12 @@ export const addRanch = ( req:any, res:Response ) =>{
         }
 
         const createRanch = Ranch.build(newRanch);
-        createRanch.save();
+        await createRanch.save();
 
         return res.status(201).json({
             createRanch
         })
+
         
     } catch ( error ) {
 

@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-
 import { generateURl } from "../db/s3Config" 
 import { idGen } from "../helpers";
 import cowImage from "../models/cowImg";
@@ -17,7 +16,7 @@ export const uploadManager = async( req: Request, res: Response ) => {
         const img =  {
             id: idGenerated,
             idCow: cowName,
-            lg: url
+            images: url
         }
 
         const createCowImg = cowImage.build(img);
