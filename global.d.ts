@@ -5,7 +5,7 @@ namespace NodeJS {
       PGDATABASE:string;
       PGHOST:string;
       PGPASSWORD:string;
-      PGPORT:string;
+      PGPORT:number;
       PGUSER:string;
       PGURL:string;
       ApiKey:string;

@@ -24,7 +24,7 @@ const uploadManager = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const img = {
             id: idGenerated,
             idCow: cowName,
-            lg: url
+            images: url
         };
         const createCowImg = cowImg_1.default.build(img);
         yield createCowImg.save();
