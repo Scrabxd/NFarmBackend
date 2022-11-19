@@ -7,6 +7,7 @@ namespace NodeJS {
       PGPASSWORD:string;
       PGPORT:number;
       PGUSER:string;
+      PGURL:string;
       ApiKey:string;
       AWSAccessKeyId:string;
       AWSSecretKey:string

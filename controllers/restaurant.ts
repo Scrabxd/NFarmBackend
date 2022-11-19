@@ -5,7 +5,7 @@ import Branch from "../models/branch";
 
 
 
-export const addRestaurant = async(req:Request , res:Response) => {
+export const addRestaurant = async (req:Request , res:Response) => {
     
     const 
     {
@@ -33,26 +33,44 @@ export const addRestaurant = async(req:Request , res:Response) => {
         
         const { idGenerated } = idGen();
 
-        const newBranch = {
-            id: idGenerated, 
-            city ,
-            street,
-            outsideNumber,
-            phoneNumber,
-            postalCode,
-            country,
-            idOwner: id,
-            branchName,
+        const existBranch = await Branch.findOne({
+            where:{
+                street:street,
+                outsideNumber:outsideNumber,
+                idOwner: id,
+                state:true
+
+            }
+        });
+
+        if(!existBranch){
+            
+            const newBranch = {
+                id: idGenerated, 
+                city ,
+                street,
+                outsideNumber,
+                phoneNumber,
+                postalCode,
+                country,
+                idOwner: id,
+                branchName,
+            }
+    
+            const createBranch = Branch.build(newBranch);
+            await createBranch.save();
+    
+            return res.status(201).json({
+                createBranch
+            })
         }
-
-        const createBranch = Branch.build(newBranch);
-        await createBranch.save();
-
-        return res.status(201).json({
-            createBranch
+        return res.status(400).json({
+            msg:'Existing Ranch'
         })
 
+
     } catch (error) {
+        console.log(error)
         return res.status(400).json({
             msg:'Talk to an admin'
         })

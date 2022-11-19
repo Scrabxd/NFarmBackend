@@ -16,7 +16,7 @@ const s3 = new aws.S3({
 })
 
 
-export const generateURl = async ( ) => {
+export const generateURl = async () => {
 
     const rawBytes = await randomBytes(16);
     const imageName = rawBytes.toString('hex')

@@ -28,7 +28,12 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUsers = getUsers;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-    const user = yield User_1.default.findByPk(id);
+    const user = yield User_1.default.findOne({
+        where: {
+            id: id,
+            state: true
+        }
+    });
     if (!user) {
         return res.status(404).json({
             msg: `No User with the id: ${id}`

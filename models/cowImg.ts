@@ -12,7 +12,7 @@ const cowImage = db.define('cowImage',{
         type:sequelize.STRING,
         allowNull:false
     },
-    lg:{
+    images:{
         type:sequelize.STRING,
         allowNull:false
     }

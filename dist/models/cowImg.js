@@ -15,7 +15,7 @@ const cowImage = config_1.default.define('cowImage', {
         type: sequelize_1.default.STRING,
         allowNull: false
     },
-    lg: {
+    images: {
         type: sequelize_1.default.STRING,
         allowNull: false
     }
