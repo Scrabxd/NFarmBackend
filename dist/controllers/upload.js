@@ -17,7 +17,8 @@ const s3Config_1 = require("../db/s3Config");
 const helpers_1 = require("../helpers");
 const cowImg_1 = __importDefault(require("../models/cowImg"));
 const uploadManager = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = (0, s3Config_1.generateURl)();
+    const url = yield (0, s3Config_1.generateURl)();
+    console.log(url);
     const cowName = req.header('cowName');
     try {
         const { idGenerated } = (0, helpers_1.idGen)();

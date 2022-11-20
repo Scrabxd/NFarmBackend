@@ -5,7 +5,8 @@ import cowImage from "../models/cowImg";
 
 export const uploadManager = async( req: Request, res: Response ) => {
 
-    const url = generateURl()
+    const url = await generateURl()
+    console.log(url)
 
     const cowName = req.header('cowName');
 
@@ -29,6 +30,7 @@ export const uploadManager = async( req: Request, res: Response ) => {
     } catch ( error ) {
         
         console.log( error );
+
 
         return res.status(400).json({
             msg: 'Talk to an admin'

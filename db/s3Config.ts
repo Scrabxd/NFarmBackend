@@ -3,7 +3,7 @@ import aws from 'aws-sdk';
 import crypto from 'crypto';
 import { promisify } from 'util';
 
-const bucketName = "nfarm-bucket-test";
+const bucketName = "nfarm-bucket";
 
 
 const randomBytes = promisify(crypto.randomBytes)
@@ -23,12 +23,11 @@ export const generateURl = async () => {
 
     const params = ({
         Bucket: bucketName,
-        key: imageName,
+        key: '123123',
         expires:60
     })
 
 
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);
     return uploadURL
-
 }

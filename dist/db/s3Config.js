@@ -16,7 +16,7 @@ exports.generateURl = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const crypto_1 = __importDefault(require("crypto"));
 const util_1 = require("util");
-const bucketName = "nfarm-bucket-test";
+const bucketName = "nfarm-bucket";
 const randomBytes = (0, util_1.promisify)(crypto_1.default.randomBytes);
 const s3 = new aws_sdk_1.default.S3({
     region: 'us-west-1',
@@ -29,7 +29,7 @@ const generateURl = () => __awaiter(void 0, void 0, void 0, function* () {
     const imageName = rawBytes.toString('hex');
     const params = ({
         Bucket: bucketName,
-        key: imageName,
+        key: '123123',
         expires: 60
     });
     const uploadURL = yield s3.getSignedUrlPromise('putObject', params);
