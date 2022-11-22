@@ -21,6 +21,7 @@ const routes_1 = require("../routes");
 const ranch_1 = require("../routes/ranch");
 const cow_1 = __importDefault(require("../routes/cow"));
 const uploads_1 = __importDefault(require("../routes/uploads"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 class Server {
     constructor() {
         this.apiPath = {
@@ -58,6 +59,12 @@ class Server {
         this.app.use(express_1.default.json());
         // carpeta publica, donde iria la app
         this.app.use(express_1.default.static('public'));
+        // File upload 
+        this.app.use((0, express_fileupload_1.default)({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
     routes() {
         this.app.use(this.apiPath.auth, auth_1.auth);

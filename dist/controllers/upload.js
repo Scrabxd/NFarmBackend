@@ -1,4 +1,5 @@
 "use strict";
+'../models';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,53 +13,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getManager = exports.uploadManager = void 0;
-const s3Config_1 = require("../db/s3Config");
-const helpers_1 = require("../helpers");
+exports.getImage = exports.uploadFiles = void 0;
+const cloudinary_1 = __importDefault(require("cloudinary"));
+const idGen_1 = require("../helpers/idGen");
 const cowImg_1 = __importDefault(require("../models/cowImg"));
-const uploadManager = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = yield (0, s3Config_1.generateURl)();
-    console.log(url);
-    const cowName = req.header('cowName');
+cloudinary_1.default.v2.config({
+    cloud_name: 'dxchpuxwt',
+    api_key: '735768378421165',
+    api_secret: 'urb2naSvL4Z1fe4qHMOHka2gHJ0'
+});
+const uploadFiles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cowId = req.header('idCow');
     try {
-        const { idGenerated } = (0, helpers_1.idGen)();
-        const img = {
+        const { idGenerated } = (0, idGen_1.idGen)();
+        const { tempFilePath } = req.files.file;
+        const { secure_url } = yield cloudinary_1.default.v2.uploader.upload(tempFilePath);
+        const cowImgData = {
             id: idGenerated,
-            idCow: cowName,
-            images: url
+            idCow: cowId,
+            images: secure_url
         };
-        const createCowImg = cowImg_1.default.build(img);
-        yield createCowImg.save();
-        return res.status(200).json({
-            createCowImg
+        const createImg = cowImg_1.default.build(cowImgData);
+        yield createImg.save();
+        return res.json({
+            createImg
         });
     }
     catch (error) {
         console.log(error);
-        return res.status(400).json({
+        res.status(400).json({
             msg: 'Talk to an admin'
         });
     }
 });
-exports.uploadManager = uploadManager;
-const getManager = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cowName = req.header('cowName');
+exports.uploadFiles = uploadFiles;
+const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cowId = req.header('idCow');
     try {
-        const findCowImgaes = yield cowImg_1.default.findAll({
+        const cowImg = yield cowImg_1.default.findOne({
             where: {
-                idCow: cowName
+                idCow: cowId
             }
         });
         return res.status(200).json({
-            findCowImgaes
+            cowImg
         });
     }
-    catch (error) {
-        console.log(error);
-        return res.status(200).json({
-            msg: 'Talk to an admin'
+    catch (err) {
+        console.log(err);
+        res.status(400).json({
+            msg: 'Talk to an admin - cow'
         });
     }
 });
-exports.getManager = getManager;
+exports.getImage = getImage;
 //# sourceMappingURL=upload.js.map

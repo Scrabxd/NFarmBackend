@@ -19,4 +19,5 @@ __exportStar(require("./users"), exports);
 __exportStar(require("./restaurant"), exports);
 __exportStar(require("./ranch"), exports);
 __exportStar(require("./cow"), exports);
+__exportStar(require("./upload"), exports);
 //# sourceMappingURL=index.js.map

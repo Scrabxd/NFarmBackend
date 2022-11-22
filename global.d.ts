@@ -9,7 +9,8 @@ namespace NodeJS {
       PGUSER:string;
       PGURL:string;
       ApiKey:string;
-      AWSAccessKeyId:string;
-      AWSSecretKey:string
+      CloudName:string;
+      CloudKey:string;
+      ApiSecret:string;
     }
   }
