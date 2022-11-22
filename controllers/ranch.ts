@@ -118,7 +118,7 @@ export const updateRanch = async ( req:any, res: Response ) => {
 
     const { id } = getIdUser( req )
 
-    const name  = req.header('ranchName');
+    const name  = req.header('ranchId');
 
     const { body } = req;
 
@@ -152,7 +152,7 @@ export const deleteRanch = async ( req: Request, res: Response ) => {
 
     const { id } = getIdUser( req );
 
-    const name = req.header('ranchName');
+    const name = req.header('ranchId');
 
     try {
 

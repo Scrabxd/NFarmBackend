@@ -16,14 +16,14 @@ exports.deleteCow = exports.updateCow = exports.getCows = exports.addCow = void 
 const helpers_1 = require("../helpers");
 const cows_1 = __importDefault(require("../models/cows"));
 const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = (0, helpers_1.getIdUser)(req);
+    const idRanch = req.header('idRanch');
     const { idGenerated } = (0, helpers_1.idGen)();
     const { certificates, name, breed, weight, } = req.body;
     try {
         const existCow = yield cows_1.default.findOne({
             where: {
                 name: name,
-                idRanch: id,
+                idRanch: idRanch,
                 state: true
             }
         });
@@ -38,7 +38,7 @@ const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             name,
             breed,
             weight,
-            idRanch: id
+            idRanch: idRanch
         };
         const createCow = cows_1.default.build(cowData);
         yield createCow.save();
@@ -77,7 +77,7 @@ const getCows = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getCows = getCows;
 const updateCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ranchId = req.header('ranchId');
-    const name = req.header('cowName');
+    const name = req.header('cowId');
     const { body } = req;
     try {
         const cow = yield cows_1.default.findOne({
@@ -101,7 +101,7 @@ const updateCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.updateCow = updateCow;
 const deleteCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ranchId = req.header('ranchId');
-    const name = req.header('cowName');
+    const name = req.header('cowId');
     try {
         const cow = yield cows_1.default.findOne({
             where: {

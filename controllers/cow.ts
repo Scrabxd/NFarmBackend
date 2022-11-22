@@ -6,7 +6,7 @@ import Cow from "../models/cows";
 
 export const addCow = async( req: Request, res: Response ) => {
 
-        const { id } = getIdUser( req )
+        const idRanch = req.header('idRanch')
     
         const { idGenerated } = idGen()
         
@@ -24,7 +24,7 @@ export const addCow = async( req: Request, res: Response ) => {
         const existCow = await Cow.findOne({
             where:{
                 name:name,
-                idRanch:id,
+                idRanch:idRanch,
                 state:true
             }
         })
@@ -42,7 +42,7 @@ export const addCow = async( req: Request, res: Response ) => {
             name,
             breed,
             weight,
-            idRanch:id
+            idRanch:idRanch
         }
 
         const createCow = Cow.build( cowData )
@@ -101,7 +101,7 @@ export const updateCow = async( req:Request, res: Response ) => {
     
     const ranchId = req.header( 'ranchId' );
 
-    const name = req.header( 'cowName' );
+    const name = req.header( 'cowId' );
 
     const { body } = req
 
@@ -134,7 +134,7 @@ export const deleteCow = async ( req: Request, res: Response ) => {
 
     const ranchId = req.header( 'ranchId' );
     
-    const name = req.header( 'cowName' );
+    const name = req.header( 'cowId' );
 
     try {
 

@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 
 
 interface idGiver {
-
     id: number
 }
 

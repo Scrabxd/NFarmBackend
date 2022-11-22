@@ -2,17 +2,25 @@ import { Router } from 'express'
 
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
+import { uploadFiles, getImage } from '../controllers/upload';
+import { fileCheck } from '../middlewares/fileCheck';
 
-import { uploadManager } from '../controllers/upload';
 
 const upload = Router();
 
 
-
-upload.get('/' ,[
+upload.post('/',
+[    
     validateAPIKey,
     validation
-],uploadManager)
+],uploadFiles)
+
+
+upload.get('/',
+[
+    validateAPIKey,
+    validation
+], getImage)
 
 
 export default upload;

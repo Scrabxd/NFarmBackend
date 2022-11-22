@@ -1,67 +1,84 @@
+import fs from 'fs';
+import path from 'path';
+
 import { Request, Response } from "express"
-import { generateURl } from "../db/s3Config" 
-import { idGen } from "../helpers";
-import cowImage from "../models/cowImg";
 
-export const uploadManager = async( req: Request, res: Response ) => {
+import Cow from '../models/cows'; '../models';
+import {uploadFile} from '../helpers'
 
-    const url = await generateURl()
-    console.log(url)
+import cloudinary from 'cloudinary';
+import { idGen } from '../helpers/idGen';
+import cowImage from '../models/cowImg';
 
-    const cowName = req.header('cowName');
+cloudinary.v2.config({
+    cloud_name:'dxchpuxwt',
+    api_key: '735768378421165',
+    api_secret: 'urb2naSvL4Z1fe4qHMOHka2gHJ0'
+});
+
+export const uploadFiles = async( req:any, res:Response) => {
+
+    const cowId = req.header('idCow');
 
     try {
 
-        const { idGenerated } = idGen();
+        const {idGenerated} = idGen();
+        
+        const { tempFilePath } = req.files.file
 
-        const img =  {
-            id: idGenerated,
-            idCow: cowName,
-            images: url
+        const { secure_url } = await cloudinary.v2.uploader.upload( tempFilePath )
+        
+        const cowImgData = {
+            id:idGenerated,
+            idCow: cowId,
+            images:secure_url
         }
 
-        const createCowImg = cowImage.build(img);
-        await createCowImg.save();
-
-        return res.status(200).json({
-            createCowImg
+        const createImg = cowImage.build( cowImgData );
+        await createImg.save();
+        
+        return res.json({
+            createImg
         })
 
-    } catch ( error ) {
-        
-        console.log( error );
-
-
-        return res.status(400).json({
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
             msg: 'Talk to an admin'
-        })
+        });
     }
-        
+
 }
 
 
-export const getManager = async ( req: Request, res: Response ) => {
+export const getImage = async(req: Request, res: Response) => {
 
-    const cowName = req.header('cowName');
-    
+    const cowId = req.header('idCow');
+
     try {
-
-        const findCowImgaes = await cowImage.findAll({
+        const cowImg = await cowImage.findOne({
             where:{
-                idCow: cowName
+                idCow: cowId
             }
+        })
+
+        return res.status(200).json({
+            cowImg
+        })
+        
+    } catch (err) {
+        console.log(err)
+        res.status(400).json({
+            msg: 'Talk to an admin - cow'
         });
 
-        return res.status( 200 ).json({
-            findCowImgaes
-        })
-        
-    } catch ( error ) {
-        
-        console.log( error );
-
-        return res.status(200).json({
-            msg:'Talk to an admin'
-        })
     }
+
+
+
 }
+
+
+
+
+

@@ -7,6 +7,8 @@ import { restaurant } from '../routes';
 import { ranch } from '../routes/ranch';
 import cow from '../routes/cow';
 import upload from '../routes/uploads';
+import fileUpload from 'express-fileupload'
+
 
 
 class Server {
@@ -64,6 +66,13 @@ class Server {
 
         // carpeta publica, donde iria la app
         this.app.use(express.static('public'));
+
+        // File upload 
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir : '/tmp/',
+            createParentPath:true
+        }))
     }
 
     routes(){

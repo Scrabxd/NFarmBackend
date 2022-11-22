@@ -18,4 +18,5 @@ __exportStar(require("./dbValidators"), exports);
 __exportStar(require("./generateJWT"), exports);
 __exportStar(require("./idGen"), exports);
 __exportStar(require("./getIdUser"), exports);
+__exportStar(require("./uploadFile"), exports);
 //# sourceMappingURL=index.js.map
