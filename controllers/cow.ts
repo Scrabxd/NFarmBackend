@@ -70,13 +70,13 @@ export const addCow = async( req: Request, res: Response ) => {
 
 export const getCows = async ( req: Request , res: Response ) => {
 
-    const { id } = getIdUser( req )
+    const idRanch = req.header('idRanch')
     
     
         try {
             const findCows = await Cow.findAll({
                 where:{
-                    idRanch : id,
+                    idRanch,
                     state:true
                 }
             });
