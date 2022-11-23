@@ -1,6 +1,6 @@
 import { Router } from 'express' 
 import { check } from 'express-validator'
-import { addCow, deleteCow, updateCow } from '../controllers/cow';
+import { addCow, deleteCow, getSingleCow, updateCow } from '../controllers/cow';
 import { getCows } from '../controllers';
 import { validateAPIKey } from '../middlewares';
 import { validation } from '../middlewares/validation';
@@ -27,6 +27,14 @@ cow.get( '/' ,
     validation
 ]
 , getCows)
+
+
+cow.get('/single', 
+
+[
+    validateAPIKey,
+    validation
+],getSingleCow )
 
 cow.put('/',
 [
