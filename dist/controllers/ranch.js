@@ -85,7 +85,7 @@ const getRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getRanch = getRanch;
 const updateRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-    const name = req.header('ranchName');
+    const name = req.header('ranchId');
     const { body } = req;
     try {
         const ranch = yield ranch_1.default.findOne({
@@ -109,7 +109,7 @@ const updateRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.updateRanch = updateRanch;
 const deleteRanch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = (0, helpers_1.getIdUser)(req);
-    const name = req.header('ranchName');
+    const name = req.header('ranchId');
     try {
         const ranch = yield ranch_1.default.findOne({
             where: {
