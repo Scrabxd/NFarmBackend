@@ -76,7 +76,7 @@ export const getCows = async ( req: Request , res: Response ) => {
         try {
             const findCows = await Cow.findAll({
                 where:{
-                    idRanch,
+                    idRanch:idRanch,
                     state:true
                 }
             });

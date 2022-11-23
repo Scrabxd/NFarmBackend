@@ -55,11 +55,11 @@ const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.addCow = addCow;
 const getCows = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = (0, helpers_1.getIdUser)(req);
+    const idRanch = req.header('idRanch');
     try {
         const findCows = yield cows_1.default.findAll({
             where: {
-                idRanch: id,
+                idRanch: idRanch,
                 state: true
             }
         });
