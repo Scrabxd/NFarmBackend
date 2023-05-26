@@ -5,7 +5,7 @@ const db = new sequelize_1.Sequelize(process.env.PGDATABASE, process.env.PGUSER,
     host: process.env.PGHOST,
     dialect: 'postgres',
     logging: false,
-    port: 7837
+    port: 5432
 });
 exports.default = db;
 //# sourceMappingURL=config.js.map
