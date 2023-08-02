@@ -12,7 +12,7 @@ const cow  = Router();
 cow.post('/',
 
 [
-    validateAPIKey,
+    // validateAPIKey,
     check('breed','There must be a breed').notEmpty(),
     check('name','There must be a name').notEmpty(),
     check('weight','Input a weight').isNumeric().notEmpty(),

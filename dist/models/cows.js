@@ -34,6 +34,9 @@ const Cow = config_1.default.define('Cow', {
     idRanch: {
         type: sequelize_1.default.NUMBER,
         allowNull: false
+    },
+    images: {
+        type: sequelize_1.default.TEXT
     }
 });
 exports.default = Cow;
