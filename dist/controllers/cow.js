@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCow = exports.updateCow = exports.getCows = exports.addCow = void 0;
+exports.deleteCow = exports.updateCow = exports.getSingleCow = exports.getCows = exports.addCow = void 0;
 const helpers_1 = require("../helpers");
 const uploadFile_1 = require("../helpers/uploadFile");
 const cows_1 = __importDefault(require("../models/cows"));
@@ -86,6 +86,26 @@ const getCows = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getCows = getCows;
+const getSingleCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cowIdReal = req.header('realIdCow');
+    try {
+        const findCow = yield cows_1.default.findOne({
+            where: {
+                id: cowIdReal,
+            }
+        });
+        return res.json({
+            findCow
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            msg: 'Talk to the admin'
+        });
+    }
+});
+exports.getSingleCow = getSingleCow;
 const updateCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ranchId = req.header('ranchId');
     const name = req.header('cowId');

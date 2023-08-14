@@ -17,6 +17,10 @@ cow.get('/', [
     // validateAPIKey,
     validation_1.validation
 ], controllers_1.getCows);
+cow.get('/single', [
+    middlewares_1.validateAPIKey,
+    validation_1.validation
+], cow_1.getSingleCow);
 cow.put('/', [
     // validateAPIKey,
     validation_1.validation

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-
+import dotenv from 'dotenv';
+dotenv.config()
 
 export const validateAPIKey = async(req: Request, res: Response, next: NextFunction) => {
     if(!req.query.apiToken){
@@ -8,8 +9,8 @@ export const validateAPIKey = async(req: Request, res: Response, next: NextFunct
         })
         
     }else{
-        if(req.query.apiToken !== process.env.ApiKey){
-            return res.json({
+        if(req.query.apiToken !== process.env.ApiKey ){
+        return res.json({
                 msg:"APIKey Invalid!"
             })
         }

@@ -107,10 +107,29 @@ export const getCows = async ( req: Request , res: Response ) => {
                 msg:'Talk to the admin'
             })
         }
-    
-    
-    
-    
+}
+
+export const getSingleCow = async ( req:Request, res:Response ) => {
+        const cowIdReal = req.header('realIdCow');
+
+        try {
+            const findCow = await Cow.findOne({
+                where:{
+                    id: cowIdReal,
+                }
+            })
+
+            return res.json({
+                findCow
+            })
+
+        } catch ( error ) {
+            console.log( error );
+            return res.status( 200 ).json({
+                msg:'Talk to the admin'
+            })
+        }
+
 }
 
 export const updateCow = async( req:Request, res: Response ) => {
