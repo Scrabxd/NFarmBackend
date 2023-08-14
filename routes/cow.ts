@@ -12,7 +12,7 @@ const cow  = Router();
 cow.post('/',
 
 [
-    validateAPIKey,
+    // validateAPIKey,
     check('breed','There must be a breed').notEmpty(),
     check('name','There must be a name').notEmpty(),
     check('weight','Input a weight').isNumeric().notEmpty(),
@@ -23,7 +23,7 @@ cow.post('/',
 
 cow.get( '/' , 
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ]
 , getCows)
@@ -38,13 +38,13 @@ cow.get('/single',
 
 cow.put('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ], updateCow)
 
 cow.delete('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ],deleteCow)
 

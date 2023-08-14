@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 import { getIdUser, idGen } from "../helpers";
+import {multiplePhoto, imageUpload} from '../helpers/uploadFile'
 import Cow from "../models/cows";
 
 
 
-export const addCow = async( req: Request, res: Response ) => {
+export const addCow = async( req: any, res: Response ) => {
 
         const idRanch = req.header('idRanch')
     
         const { idGenerated } = idGen()
+
+        const cowImages = req.files.imageArray
+
+        let images = null
         
         
         const {
@@ -36,13 +41,24 @@ export const addCow = async( req: Request, res: Response ) => {
             })
 
         }
+
+        if(Array.isArray(cowImages)){
+            const real = await multiplePhoto(req)
+
+            images = real.join(',')
+        }else{  
+            images = await imageUpload(req)
+        }
+
+
         const cowData = {
             id:idGenerated, 
             certificates,
             name,
             breed,
             weight,
-            idRanch:idRanch
+            idRanch:idRanch,
+            images
         }
 
         const createCow = Cow.build( cowData )
@@ -182,3 +198,4 @@ export const deleteCow = async ( req: Request, res: Response ) => {
 
 
 }
+

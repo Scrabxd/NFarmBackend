@@ -12,7 +12,7 @@ export const ranch  = Router();
 
 ranch.get('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ]
 ,getRanch)
@@ -20,7 +20,7 @@ ranch.get('/',
 ranch.post('/',
 
 [
-    validateAPIKey,
+    // validateAPIKey,
     check('city','The city is required').notEmpty(),
     check('street','The street is required').notEmpty(),
     check('phoneNumber','Please input a valid phonen number').notEmpty().isLength({min: 10}),
@@ -32,13 +32,13 @@ ranch.post('/',
 
 ranch.put('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ], updateRanch)
 
 ranch.delete('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
     
 ], deleteRanch)

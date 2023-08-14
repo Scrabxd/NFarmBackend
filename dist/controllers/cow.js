@@ -14,10 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCow = exports.updateCow = exports.getSingleCow = exports.getCows = exports.addCow = void 0;
 const helpers_1 = require("../helpers");
+const uploadFile_1 = require("../helpers/uploadFile");
 const cows_1 = __importDefault(require("../models/cows"));
 const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const idRanch = req.header('idRanch');
     const { idGenerated } = (0, helpers_1.idGen)();
+    const cowImages = req.files.imageArray;
+    let images = null;
     const { certificates, name, breed, weight, } = req.body;
     try {
         const existCow = yield cows_1.default.findOne({
@@ -32,13 +35,21 @@ const addCow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 msg: 'Cow Exits in this ranch'
             });
         }
+        if (Array.isArray(cowImages)) {
+            const real = yield (0, uploadFile_1.multiplePhoto)(req);
+            images = real.join(',');
+        }
+        else {
+            images = yield (0, uploadFile_1.imageUpload)(req);
+        }
         const cowData = {
             id: idGenerated,
             certificates,
             name,
             breed,
             weight,
-            idRanch: idRanch
+            idRanch: idRanch,
+            images
         };
         const createCow = cows_1.default.build(cowData);
         yield createCow.save();

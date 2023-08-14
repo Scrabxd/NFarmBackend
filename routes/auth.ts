@@ -10,7 +10,7 @@ export const auth = Router();
 
 auth.post('/login',
 [
-    validateAPIKey,
+            // validateAPIKey,
     check('email', 'The email is mandatory').isEmail(),
     check('password', 'The password is mandatory').notEmpty(),
     validation

@@ -20,7 +20,6 @@ const auth_1 = require("../routes/auth");
 const routes_1 = require("../routes");
 const ranch_1 = require("../routes/ranch");
 const cow_1 = __importDefault(require("../routes/cow"));
-const uploads_1 = __importDefault(require("../routes/uploads"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 class Server {
     constructor() {
@@ -30,7 +29,6 @@ class Server {
             restaurant: '/api/restaurant',
             ranch: '/api/ranch',
             cow: '/api/cow',
-            upload: '/api/upload'
         };
         // Metodos iniciales
         this.app = (0, express_1.default)();
@@ -72,7 +70,6 @@ class Server {
         this.app.use(this.apiPath.restaurant, routes_1.restaurant);
         this.app.use(this.apiPath.ranch, ranch_1.ranch);
         this.app.use(this.apiPath.cow, cow_1.default);
-        this.app.use(this.apiPath.upload, uploads_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

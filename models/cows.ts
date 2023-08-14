@@ -1,4 +1,4 @@
-import sequelize, { BulkRecordError } from 'sequelize'
+import sequelize, {  TEXT } from 'sequelize'
 import db from '../db/config'
 
 const Cow = db.define('Cow',{
@@ -30,6 +30,9 @@ const Cow = db.define('Cow',{
     idRanch:{
         type:sequelize.NUMBER,
         allowNull:false
+    },
+    images:{
+        type:sequelize.TEXT
     }
 })
 

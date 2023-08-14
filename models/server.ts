@@ -6,7 +6,6 @@ import { auth } from '../routes/auth';
 import { restaurant } from '../routes';
 import { ranch } from '../routes/ranch';
 import cow from '../routes/cow';
-import upload from '../routes/uploads';
 import fileUpload from 'express-fileupload'
 
 
@@ -23,7 +22,6 @@ class Server {
         restaurant:'/api/restaurant',
         ranch:'/api/ranch',
         cow:'/api/cow',
-        upload:'/api/upload'
     }
 
 
@@ -38,6 +36,7 @@ class Server {
         // Middlewares
 
         this.middlewares();
+        
 
         // Definir las rutas.
         this.routes()
@@ -82,7 +81,6 @@ class Server {
         this.app.use(this.apiPath.restaurant, restaurant);
         this.app.use(this.apiPath.ranch, ranch);
         this.app.use(this.apiPath.cow, cow);
-        this.app.use(this.apiPath.upload, upload);
 
     }
 
