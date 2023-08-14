@@ -9,7 +9,7 @@ export const restaurant = Router();
 restaurant.post( '/',
 
 [
-    validateAPIKey, 
+    // validateAPIKey, 
     check('city','The city is required').notEmpty(),
     check('street','The street is required').notEmpty(),
     check('outsideNumber','The Outside number is required.').notEmpty(),
@@ -22,7 +22,7 @@ restaurant.post( '/',
 
 restaurant.get( '/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ]
 , getRestaurants )
@@ -30,13 +30,13 @@ restaurant.get( '/',
 
 restaurant.put('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ],updateRestaurant)
 
 restaurant.delete('/',
 
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ], deleteRestaurant)

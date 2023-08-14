@@ -4,7 +4,6 @@ const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const cow_1 = require("../controllers/cow");
 const controllers_1 = require("../controllers");
-const middlewares_1 = require("../middlewares");
 const validation_1 = require("../middlewares/validation");
 const cow = (0, express_1.Router)();
 cow.post('/', [
@@ -15,15 +14,15 @@ cow.post('/', [
     validation_1.validation
 ], cow_1.addCow);
 cow.get('/', [
-    middlewares_1.validateAPIKey,
+    // validateAPIKey,
     validation_1.validation
 ], controllers_1.getCows);
 cow.put('/', [
-    middlewares_1.validateAPIKey,
+    // validateAPIKey,
     validation_1.validation
 ], cow_1.updateCow);
 cow.delete('/', [
-    middlewares_1.validateAPIKey,
+    // validateAPIKey,
     validation_1.validation
 ], cow_1.deleteCow);
 exports.default = cow;

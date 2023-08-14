@@ -23,20 +23,20 @@ cow.post('/',
 
 cow.get( '/' , 
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ]
 , getCows)
 
 cow.put('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ], updateCow)
 
 cow.delete('/',
 [
-    validateAPIKey,
+    // validateAPIKey,
     validation
 ],deleteCow)
 
